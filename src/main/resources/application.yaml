@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: htmxbook
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  main:
+    banner-mode: "LOG"
+  thymeleaf:
+    cache: false
+    prefix: classpath:/static/public/
+  jpa:
+    open-in-view: true
+server:
+  error:
+    whitelabel:
+      enabled: true
+    include-stacktrace: always
+  address: localhost
+  port: ${PORT:8080}
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %highlight(%-5level) %yellow(%logger{40}.%M\\(%class{0}.java:%line\\)) - %msg%throwable%n"
+  level:
+    root: INFO
+  org:
+    springframework:
+      boot:
+        test:
+          context:
+            SpringBootTestContextBootstrapper: INFO
+      test:
+        context:
+          support:
+            AbstractContextLoader: INFO
+            AnnotationConfigContextLoaderUtils: INFO
+external:
+  server:
+    address: http://localhost:8080 # Do not include trailing slash
