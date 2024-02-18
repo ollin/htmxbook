@@ -1,49 +1,104 @@
+import org.gradle.api.JavaVersion.VERSION_21
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jooq.meta.jaxb.Property
 
 plugins {
-	id("org.springframework.boot") version "3.2.2"
-	id("io.spring.dependency-management") version "1.1.4"
-	kotlin("jvm") version "1.9.22"
-	kotlin("plugin.spring") version "1.9.22"
+    idea
+    id("org.springframework.boot") version libs.versions.springBoot
+    id("io.spring.dependency-management") version libs.versions.springDependencyManagement
+    alias(libs.plugins.jooqStuderPlugin)
+    kotlin("jvm") version libs.versions.kotlin
+    kotlin("plugin.spring") version libs.versions.kotlin
 }
 
 group = "com.nautsch"
 version = "0.0.1-SNAPSHOT"
 
-java {
-	sourceCompatibility = JavaVersion.VERSION_21
-}
-
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-	implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation(enforcedPlatform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+    implementation(libs.spring.boot.starter.web)
+//    implementation(libs.spring.boot.starter.jdbc)
+    implementation(libs.spring.boot.starter.data.jdbc)
+    implementation(libs.spring.boot.starter.jooq)
+    implementation(libs.spring.boot.starter.thymeleaf)
+    implementation(libs.thymeleaf.layout.dialect)
+//    implementation(libs.thymeleaf.extras.springsecurity5)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.fasterxml.jackson.module.kotlin)
 
-	// webjars - begin
-	implementation("org.webjars:webjars-locator-core")
-	implementation("org.webjars:bootstrap:5.1.0")
-	implementation("org.webjars.npm:bootstrap-icons:1.5.0")
-	implementation("org.webjars.npm:htmx.org:1.5.0")
-	implementation("org.webjars.npm:hyperscript.org:0.8.1")
-	// webjars - end
+    implementation(libs.spring.boot.starter.jooq)
 
-	runtimeOnly("org.springframework.boot:spring-boot-devtools")
+    runtimeOnly(libs.h2)
+    implementation(libs.flyway.core)
+    implementation(libs.jooq.codegen)
 
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+    jooqGenerator(enforcedPlatform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+    jooqGenerator(libs.jooq.meta.extensions)
+
+    implementation(libs.webjars.locator.core)
+    implementation(libs.webjars.bootstrap.core)
+    implementation(libs.webjars.bootstrap.icons)
+    implementation(libs.webjars.htmx)
+    implementation(libs.webjars.hyperscript)
+
+    runtimeOnly(libs.spring.boot.devtools)
+
+    testImplementation(libs.spring.boot.starter.test)
+}
+
+idea {
+    module.isDownloadJavadoc = true
+    module.isDownloadSources = true
+}
+
+java {
+    sourceCompatibility = VERSION_21
 }
 
 tasks.withType<KotlinCompile> {
-	kotlinOptions {
-		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "21"
-	}
+    kotlinOptions {
+        freeCompilerArgs += "-Xjsr305=strict"
+        jvmTarget = "21"
+    }
 }
 
 tasks.withType<Test> {
-	useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+jooq {
+    version.set(libs.versions.jooq)
+    edition.set(nu.studer.gradle.jooq.JooqEdition.OSS)
+    configurations {
+        create("main") {  // name of the jOOQ configuration
+            jooqConfiguration.apply {
+                generator.apply {
+                    name = "org.jooq.codegen.DefaultGenerator"
+
+                    database.apply {
+                        name = "org.jooq.meta.extensions.ddl.DDLDatabase"
+                        properties = listOf(Property().apply {
+                            key = "scripts"
+                            value = "src/main/resources/db/migration/V*__*.sql"
+                        }, Property().apply {
+                            key = "sort"
+                            value = "flyway"
+                        }, Property().apply {
+                            key = "unqualifiedSchema"
+                            value = "none"
+                        }, Property().apply {
+                            key = "defaultNameCase"
+                            value = "lower"
+                        })
+
+                        recordVersionFields = "rec_version"
+                    }
+                }
+            }
+        }
+    }
 }
