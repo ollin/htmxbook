@@ -4,11 +4,11 @@ import org.jooq.DSLContext
 import org.jooq.generated.Tables.CONTACT
 import org.jooq.generated.tables.records.ContactRecord
 import org.springframework.stereotype.Repository
-import java.util.UUID
+import java.util.*
 
 
 @Repository
-class ContractRepository(
+class ContactRepository(
     private val jooq: DSLContext
 ) {
     fun fetchAll(): List<Contact> {
@@ -18,6 +18,9 @@ class ContractRepository(
     }
 
     fun save(contact: Contact) {
+        contact.toRecord().store()
+    }
+    fun save(contact: ContactUnsaved) {
         contact.toRecord().store()
     }
 
@@ -38,6 +41,15 @@ class ContractRepository(
         val record = ContactRecord()
 
         record.id = this.id
+        record.name = this.name
+        record.email = this.email
+        record.phone = this.phone
+
+        return record
+    }
+    private fun ContactUnsaved.toRecord(): ContactRecord {
+        val record = ContactRecord()
+
         record.name = this.name
         record.email = this.email
         record.phone = this.phone
