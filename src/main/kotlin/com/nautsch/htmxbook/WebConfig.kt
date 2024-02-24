@@ -5,12 +5,14 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.ViewResolver
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.springframework.web.util.pattern.PathPatternParser
 import org.thymeleaf.spring6.SpringTemplateEngine
 import org.thymeleaf.spring6.view.ThymeleafViewResolver
 import org.thymeleaf.templatemode.TemplateMode.HTML
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
+
 
 @Configuration
 class WebConfig : WebMvcConfigurer {
@@ -44,5 +46,12 @@ class WebConfig : WebMvcConfigurer {
         val resolver = ThymeleafViewResolver()
         resolver.templateEngine = templateEngine()
         return resolver
+    }
+
+    override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
+        registry
+            .addResourceHandler("/webjars/**")
+            .addResourceLocations("classpath:/META-INF/resources/webjars/")
+            .resourceChain(false)
     }
 }
