@@ -9,23 +9,23 @@ import java.util.*
 
 @Repository
 class ContactRepository(
-    private val jooq: DSLContext
+    private val create: DSLContext
 ) {
 
     init {
-        jooq.newRecord(CONTACT).apply {
+        create.newRecord(CONTACT).apply {
             id = UUID.randomUUID()
             name = "John Doe"
             email = "john.doe@mail.local"
             phone = "+1234567890"
         }.store()
-        jooq.newRecord(CONTACT).apply {
+        create.newRecord(CONTACT).apply {
             id = UUID.randomUUID()
             name = "Melly Blubber"
             email = "melly.blubber@mail.local"
             phone = "+1234567891"
         }.store()
-        jooq.newRecord(CONTACT).apply {
+        create.newRecord(CONTACT).apply {
             id = UUID.randomUUID()
             name = "Dolly Fluff"
             email = "dolly.fluff@mail.local"
@@ -33,7 +33,7 @@ class ContactRepository(
         }.store()
     }
     fun fetchAll(): List<Contact> {
-        return jooq.selectFrom(CONTACT)
+        return create.selectFrom(CONTACT)
             .fetch()
             .map { it.toModel() }
     }
@@ -46,7 +46,7 @@ class ContactRepository(
     }
 
     fun delete(id: UUID) {
-        jooq.deleteFrom(CONTACT)
+        create.deleteFrom(CONTACT)
             .where(CONTACT.ID.eq(id))
             .execute()
     }
