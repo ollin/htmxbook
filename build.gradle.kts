@@ -21,7 +21,7 @@ repositories {
 dependencies {
     implementation(enforcedPlatform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
     implementation(libs.spring.boot.starter.web)
-    implementation(libs.spring.boot.starter.data.jdbc)
+    implementation(libs.spring.boot.starter.jdbc)
     implementation(libs.spring.boot.starter.jooq)
     implementation(libs.spring.boot.starter.thymeleaf)
     implementation(libs.thymeleaf.layout.dialect)
@@ -29,14 +29,13 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.fasterxml.jackson.module.kotlin)
 
-    implementation(libs.spring.boot.starter.jooq)
-
     implementation(libs.h2)
     implementation(libs.flyway.core)
     implementation(libs.jooq.codegen)
 
     jooqGenerator(enforcedPlatform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
     jooqGenerator(libs.jooq.meta.extensions)
+    jooqGenerator(libs.jooq.codegen)
 
     implementation(libs.webjars.locator.core)
     implementation(libs.webjars.bootstrap.core)

@@ -99,10 +99,6 @@ spring-webflux = { group = "org.springframework", name = "spring-webflux" }
 springdoc-openapi-starter-webmvc-ui = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "springDoc" }
 springmockk = {group = "com.ninja-squad", name = "springmockk", version.ref = "springmockk"}
 
-testcontainers-localstack = {group = "org.testcontainers", name = "localstack", version.ref = "testcontainers"}
-testcontainers-mongodb = {group = "org.testcontainers", name = "mongodb", version.ref = "testcontainers"}
-testcontainersKeycloak = {group = "com.github.dasniko", name = "testcontainers-keycloak", version = "3.2.0"}
-
 thymeleaf-layout-dialect = { group = "nz.net.ultraq.thymeleaf", name = "thymeleaf-layout-dialect", version.ref = "thymeleaf-layout-dialect" }
 
 urlbuilder = { group = "io.mikael", name = "urlbuilder", version = "2.0.9" }

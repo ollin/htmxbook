@@ -10,11 +10,12 @@ import javax.sql.DataSource
 
 
 @Configuration
-public class DbConfig {
+class DbConfig {
 
     @Primary
     @Bean
-    fun dataSource(): DataSource {
+    fun dataSource(
+    ): DataSource {
         return DataSourceProperties().apply {
             url = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1"
             username = "sa"
@@ -41,9 +42,10 @@ public class DbConfig {
 
 
     @Bean
-    fun jooqDefaultConfigurationCustomizer(dataSource: DataSource) : DefaultConfigurationCustomizer {
+    fun jooqDefaultConfigurationCustomizer(
+        dataSource: DataSource,
+    ): DefaultConfigurationCustomizer {
         return DefaultConfigurationCustomizer { configuration ->
-            configuration.setSQLDialect(org.jooq.SQLDialect.H2)
             configuration.setDataSource(dataSource)
         }
     }

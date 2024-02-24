@@ -11,6 +11,27 @@ import java.util.*
 class ContactRepository(
     private val jooq: DSLContext
 ) {
+
+    init {
+        jooq.newRecord(CONTACT).apply {
+            id = UUID.randomUUID()
+            name = "John Doe"
+            email = "john.doe@mail.local"
+            phone = "+1234567890"
+        }.store()
+        jooq.newRecord(CONTACT).apply {
+            id = UUID.randomUUID()
+            name = "Melly Blubber"
+            email = "melly.blubber@mail.local"
+            phone = "+1234567891"
+        }.store()
+        jooq.newRecord(CONTACT).apply {
+            id = UUID.randomUUID()
+            name = "Dolly Fluff"
+            email = "dolly.fluff@mail.local"
+            phone = "+1234567892"
+        }.store()
+    }
     fun fetchAll(): List<Contact> {
         return jooq.selectFrom(CONTACT)
             .fetch()

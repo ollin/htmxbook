@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>Contacts</title>
@@ -15,8 +15,62 @@
     <div class="container">
         <br/>
         <div class="alert alert-success">
-            <strong>If this looks ok...</strong> Bootstrap is working.
+            <strong>Contacts</strong> is working.
         </div>
+    </div>
+    <div class="container">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--/*/
+            <tr th:each="contact : ${contacts}">
+                <td th:text="${contact.name}"></td>
+                <td th:text="${contact.phone}"></td>
+                <td th:text="${contact.email}"></td>
+                <td>
+                    <a th:href="@{/contacts/{id}/edit(id=${contact.id})}" class="btn btn-primary btn-sm">Edit</a>
+                    <a th:href="@{/contacts/{id}/(id=${contact.id})}" class="btn btn-secondary btn-sm">View</a>
+                </td>
+            </tr>
+            /*/-->
+            <!--/* for prototyping-->
+            <tr>
+                <td>Mr. Proto</td>
+                <td>+41 79 411 11 11</td>
+                <td>mr.proto@mail.local</td>
+                <td>
+                    <a href="" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="" class="btn btn-secondary btn-sm">View</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Ms. Proto</td>
+                <td>+41 79 411 11 12</td>
+                <td>ms.proto@mail.local</td>
+                <td>
+                    <a href="" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="" class="btn btn-secondary btn-sm">View</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Berry Proto</td>
+                <td>+41 79 411 11 13</td>
+                <td>berry.proto@mail.local</td>
+                <td>
+                    <a href="" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="" class="btn btn-secondary btn-sm">View</a>
+                </td>
+            </tr>
+            <!--*/-->
+            </tbody>
+        </table>
     </div>
 </section>
 <!--/* Used only for editing in Pinegrow. Remove comment to display -->
