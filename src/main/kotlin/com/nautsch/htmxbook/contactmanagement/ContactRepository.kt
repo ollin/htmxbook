@@ -46,10 +46,10 @@ class ContactRepository(
     }
 
     fun save(contact: Contact) {
-        contact.toRecord().store()
+        contact.toRecord().update()
     }
     fun save(contact: ContactUnsaved) {
-        contact.toRecord().store()
+        contact.toRecord().insert()
     }
 
     fun delete(id: UUID) {

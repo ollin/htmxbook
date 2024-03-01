@@ -29,6 +29,13 @@ class ContactsController(
         return ModelAndView("new", model)
     }
 
+    @GetMapping("/{id}/edit")
+    fun editContact(@PathVariable id: String, model: ModelMap): ModelAndView {
+        val contact = contactRepository.findById(UUID.fromString(id))
+        model.addAttribute("contact", contact)
+        return ModelAndView("edit", model)
+    }
+
     @PostMapping("/new")
     fun handleNewContact(@ModelAttribute("newContact") newContact: NewContactForm, model: ModelMap): String {
 
@@ -40,9 +47,27 @@ class ContactsController(
 
         return "redirect:/contacts"
     }
+    @PostMapping("/{id}/edit")
+    fun handleEditContact(@ModelAttribute("contact") editContact: EditContactForm, model: ModelMap): String {
+
+        contactRepository.save(Contact(
+            id = UUID.fromString(editContact.id),
+            name = editContact.name,
+            email = editContact.email,
+            phone = editContact.phone
+        ))
+
+        return "redirect:/contacts/${editContact.id}"
+    }
 }
 
 class NewContactForm {
+    var name: String = ""
+    var email: String = ""
+    var phone: String = ""
+}
+class EditContactForm {
+    var id: String = ""
     var name: String = ""
     var email: String = ""
     var phone: String = ""
