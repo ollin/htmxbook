@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Contacts</title>
+    <!--/* Used only for editing in Pinegrow. Remove comment to display -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <!--*/-->
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <br/>
+        <div class="alert alert-success">
+            <strong>View Contact</strong>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <h1 class="mb-4" th:text="${contact.name}"></h1>
+
+        <div class="mb-3">
+            <div>
+                <strong>Phone:</strong>
+                <span class="ml-2" th:text="${contact.phone}"></span>
+            </div>
+            <div>
+                <strong>Email:</strong>
+                <span class="ml-2" th:text="${contact.email}"></span>
+            </div>
+        </div>
+
+        <p>
+            <a th:href="@{/contacts/{id}/edit(id=${contact.id})}" class="btn btn-primary mr-2">Edit</a>
+            <a href="/contacts" class="btn btn-secondary">Back</a>
+        </p>
+    </div>
+</section>
+<!--/* Used only for editing in Pinegrow. Remove comment to display -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
+<!--*/-->
+</body>
+</html>

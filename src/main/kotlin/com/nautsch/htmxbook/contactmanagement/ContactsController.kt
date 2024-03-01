@@ -2,11 +2,9 @@ package com.nautsch.htmxbook.contactmanagement
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
+import java.util.*
 
 @Controller
 @RequestMapping("/contacts")
@@ -18,6 +16,13 @@ class ContactsController(
         model.addAttribute("contacts", contactRepository.fetchAll())
         return ModelAndView("index", model)
     }
+    @GetMapping("/{id}")
+    fun getContact(@PathVariable id: String, model: ModelMap): ModelAndView {
+        val contact = contactRepository.findById(UUID.fromString(id))
+        model.addAttribute("contact", contact)
+        return ModelAndView("show", model)
+    }
+
     @GetMapping("/new")
     fun contacts_new(model: ModelMap): ModelAndView {
         model.addAttribute("newContact", NewContactForm())

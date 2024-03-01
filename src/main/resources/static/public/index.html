@@ -29,17 +29,17 @@
             </tr>
             </thead>
             <tbody>
-            <!--/*/
+
             <tr th:each="contact : ${contacts}">
                 <td th:text="${contact.name}"></td>
                 <td th:text="${contact.phone}"></td>
                 <td th:text="${contact.email}"></td>
                 <td>
                     <a th:href="@{/contacts/{id}/edit(id=${contact.id})}" class="btn btn-primary btn-sm">Edit</a>
-                    <a th:href="@{/contacts/{id}/(id=${contact.id})}" class="btn btn-secondary btn-sm">View</a>
+                    <a th:href="@{/contacts/{id}(id=${contact.id})}" class="btn btn-secondary btn-sm">View</a>
                 </td>
             </tr>
-            /*/-->
+
             <!--/* for prototyping-->
             <tr>
                 <td>Mr. Proto</td>

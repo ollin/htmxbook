@@ -38,6 +38,13 @@ class ContactRepository(
             .map { it.toModel() }
     }
 
+    fun findById(uuid: UUID): Contact? {
+        return create.selectFrom(CONTACT)
+            .where(CONTACT.ID.eq(uuid))  // bitte passen Sie diese Zeile Ihren tatsächlichen Tabellennamen und Feldnamen an
+            .fetchOne()
+            ?.toModel()
+    }
+
     fun save(contact: Contact) {
         contact.toRecord().store()
     }
