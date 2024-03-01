@@ -59,23 +59,20 @@ class ContactRepository(
     )
 
     private fun Contact.toRecord(): ContactRecord {
-        val record = ContactRecord()
-
-        record.id = this.id
-        record.name = this.name
-        record.email = this.email
-        record.phone = this.phone
-
-        return record
+        return create.newRecord(CONTACT).apply {
+            id = this@toRecord.id
+            name = this@toRecord.name
+            email = this@toRecord.email
+            phone = this@toRecord.phone
+        }
     }
     private fun ContactUnsaved.toRecord(): ContactRecord {
-        val record = ContactRecord()
-
-        record.name = this.name
-        record.email = this.email
-        record.phone = this.phone
-
-        return record
+        return create.newRecord(CONTACT).apply {
+            id = UUID.randomUUID()
+            name = this@toRecord.name
+            email = this@toRecord.email
+            phone = this@toRecord.phone
+        }
     }
 }
 

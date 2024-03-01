@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Contacts</title>
+    <!--/* Used only for editing in Pinegrow. Remove comment to display -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <!--*/-->
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <br/>
+        <div class="alert alert-success">
+            <strong>New Contact</strong>
+        </div>
+    </div>
+    <div class="container">
+        <!--/*@thymesVar id="newContact" type="com.nautsch.htmxbook.contactmanagement.NewContactForm"*/-->
+        <form action="#" th:action="@{/contacts/new}" th:object="${newContact}" method="post" class="needs-validation" novalidate>
+            <fieldset>
+                <legend>Contact Values</legend>
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name" required th:field="*{name}">
+                    <div class="invalid-feedback">
+                        <!-- <span class="error" th:text="${#fields.errors('name')}"></span> -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email" required th:field="*{email}">
+                    <div class="invalid-feedback">
+                        <!-- <span class="error" th:text="${#fields.errors('email')}"></span> -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" id="phone" placeholder="+41 79 555 55 55" required th:field="*{phone}" >
+                    <div class="invalid-feedback">
+                        <!-- <span class="error" th:text="${#fields.errors('phone')}"></span> -->
+                    </div>
+                </div>
+
+                <div class="form-group d-flex justify-content-between">
+                    <a href="/contacts" class="btn btn-secondary">Back</a>
+                    <div>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>
+<!--/* Used only for editing in Pinegrow. Remove comment to display -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
+<!--*/-->
+</body>
+</html>
