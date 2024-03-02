@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.util.*
 
 @Controller
@@ -37,7 +38,11 @@ class ContactsController(
     }
 
     @PostMapping("/new")
-    fun handleNewContact(@ModelAttribute("newContact") newContact: NewContactForm, model: ModelMap): String {
+    fun handleNewContact(
+        @ModelAttribute("newContact") newContact: NewContactForm,
+        model: ModelMap,
+        redirectAttributes: RedirectAttributes,
+        ): String {
 
         contactRepository.save(ContactUnsaved(
             name = newContact.name,
@@ -45,10 +50,16 @@ class ContactsController(
             phone = newContact.phone
         ))
 
+        redirectAttributes.addFlashAttribute("message", "Contact successfully created")
+
         return "redirect:/contacts"
     }
     @PostMapping("/{id}/edit")
-    fun handleEditContact(@ModelAttribute("contact") editContact: EditContactForm, model: ModelMap): String {
+    fun handleEditContact(
+        @ModelAttribute("contact") editContact: EditContactForm,
+        model: ModelMap,
+        redirectAttributes: RedirectAttributes,
+    ): String {
 
         contactRepository.save(Contact(
             id = UUID.fromString(editContact.id),
@@ -56,6 +67,8 @@ class ContactsController(
             email = editContact.email,
             phone = editContact.phone
         ))
+
+        redirectAttributes.addFlashAttribute("message", "Contact successfully saved")
 
         return "redirect:/contacts/${editContact.id}"
     }
