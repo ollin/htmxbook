@@ -63,7 +63,8 @@
                 </div>
             </fieldset>
         </form>
-        <form action="/contacts/{{ contact.id }}/delete" method="post">
+        <!--/*@thymesVar id="contact" type="com.nautsch.htmxbook.contactmanagement.Contact"*/-->
+        <form th:action="@{/contacts/{id}/delete(id=*{contact.id})}" method="post">
             <button class="btn btn-primary">Delete</button>
         </form>
         <p>

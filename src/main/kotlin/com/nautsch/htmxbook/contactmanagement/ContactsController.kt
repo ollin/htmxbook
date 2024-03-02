@@ -50,7 +50,7 @@ class ContactsController(
             phone = newContact.phone
         ))
 
-        redirectAttributes.addFlashAttribute("message", "Contact successfully created")
+        redirectAttributes.addFlashAttribute("message", "Contact created")
 
         return "redirect:/contacts"
     }
@@ -68,9 +68,19 @@ class ContactsController(
             phone = editContact.phone
         ))
 
-        redirectAttributes.addFlashAttribute("message", "Contact successfully saved")
+        redirectAttributes.addFlashAttribute("message", "Contact saved")
 
         return "redirect:/contacts/${editContact.id}"
+    }
+    @PostMapping("/{id}/delete")
+    fun handleDeleteContact(
+        @PathVariable id: String,
+        model: ModelMap,
+        redirectAttributes: RedirectAttributes,
+    ): String {
+        contactRepository.delete(UUID.fromString(id))
+        redirectAttributes.addFlashAttribute("message", "Contact deleted")
+        return "redirect:/contacts"
     }
 }
 
