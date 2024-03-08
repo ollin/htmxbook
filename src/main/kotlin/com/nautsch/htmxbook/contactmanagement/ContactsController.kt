@@ -2,8 +2,12 @@ package com.nautsch.htmxbook.contactmanagement
 
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.servlet.http.HttpServletResponse.SC_SEE_OTHER
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotEmpty
+import jakarta.validation.constraints.Size
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
@@ -29,20 +33,14 @@ class ContactsController(
 
     @GetMapping("/new")
     fun contacts_new(model: ModelMap): ModelAndView {
-        model.addAttribute("newContact", NewContactForm())
+        model.addAttribute("newContact", ContactForm())
         return ModelAndView("new", model)
-    }
-
-    @GetMapping("/{id}/edit")
-    fun editContact(@PathVariable id: String, model: ModelMap): ModelAndView {
-        val contact = contactRepository.findById(UUID.fromString(id))
-        model.addAttribute("contact", contact)
-        return ModelAndView("edit", model)
     }
 
     @PostMapping("/new")
     fun handleNewContact(
-        @ModelAttribute("newContact") newContact: NewContactForm,
+        @ModelAttribute("newContact") newContact: ContactForm,
+        bindingResult: BindingResult,
         model: ModelMap,
         redirectAttributes: RedirectAttributes,
     ): String {
@@ -60,9 +58,20 @@ class ContactsController(
         return "redirect:/contacts"
     }
 
+    @GetMapping("/{id}/edit")
+    fun editContact(
+        @PathVariable id: String,
+        model: ModelMap,
+    ): ModelAndView {
+        val contact = contactRepository.findById(UUID.fromString(id))
+        model.addAttribute("contact", contact)
+        return ModelAndView("edit", model)
+    }
+
     @PostMapping("/{id}/edit")
     fun handleEditContact(
-        @ModelAttribute("contact") editContact: EditContactForm,
+        @Valid @ModelAttribute("contact") editContact: EditContactForm,
+        bindingResult: BindingResult,
         model: ModelMap,
         redirectAttributes: RedirectAttributes,
     ): String {
@@ -95,15 +104,16 @@ class ContactsController(
     }
 }
 
-class NewContactForm {
+open class ContactForm {
+    @NotEmpty(message = "Contact's name cannot be empty.")
+    @Size(min = 3, max = 250)
     var name: String = ""
+    @NotEmpty(message = "Contact's email cannot be empty.")
     var email: String = ""
+    @NotEmpty(message = "Contact's phone cannot be empty.")
     var phone: String = ""
 }
 
-class EditContactForm {
+class EditContactForm : ContactForm(){
     var id: String = ""
-    var name: String = ""
-    var email: String = ""
-    var phone: String = ""
 }

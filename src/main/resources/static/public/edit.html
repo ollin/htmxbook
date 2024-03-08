@@ -34,7 +34,7 @@
                            required
                            th:field="*{contact.name}">
                     <div class="invalid-feedback">
-                        <!-- <span class="error" th:text="${#fields.errors('name')}"></span> -->
+                        <p th:if="${#fields.hasErrors('contact.name')}" th:errorclass="error" th:errors="*{name}" />
                     </div>
                 </div>
 

@@ -86,10 +86,11 @@ spring-boot-starter-hateoas = { group = "org.springframework.boot", name = "spri
 spring-boot-starter-jdbc = { group = "org.springframework.boot", name = "spring-boot-starter-jdbc"}
 spring-boot-starter-jooq = { group = "org.springframework.boot", name = "spring-boot-starter-jooq"}
 spring-boot-starter-oauth2-resource-server = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-resource-server"}
-spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
 spring-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
 spring-boot-starter-thymeleaf = { group = "org.springframework.boot", name = "spring-boot-starter-thymeleaf" }
+spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
+spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
 spring-boot-test =  { group = "org.springframework.boot", name = "spring-boot-test"}
 spring-context = { group = "org.springframework", name = "spring-context" }
 spring-data-commons = { group = "org.springframework.data", name = "spring-data-commons" }
