@@ -1,5 +1,7 @@
 package com.nautsch.htmxbook.contactmanagement
 
+import jakarta.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletResponse.SC_SEE_OTHER
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.*
@@ -80,10 +82,16 @@ class ContactsController(
     }
 
     @DeleteMapping("/{id}")
-    fun deleteContact(@PathVariable id: String, model: ModelMap, redirectAttributes: RedirectAttributes): String {
+    fun deleteContact(
+        @PathVariable id: String,
+        model: ModelMap,
+        redirectAttributes: RedirectAttributes,
+        response: HttpServletResponse
+    ) {
         contactRepository.delete(UUID.fromString(id))
         redirectAttributes.addFlashAttribute("message", "Contact deleted")
-        return "redirect:/contacts"
+        response.status = SC_SEE_OTHER
+        response.setHeader("Location", "/contacts")
     }
 }
 

@@ -64,7 +64,7 @@
             </fieldset>
         </form>
         <!--/*@thymesVar id="contact" type="com.nautsch.htmxbook.contactmanagement.Contact"*/-->
-        <button th:attr="hx-delete=@{/contacts/{id}(id=*{contact.id})}" class="btn btn-primary">Delete</button>
+        <button th:attr="hx-delete=@{/contacts/{id}(id=${contact.id})}" class="btn btn-primary">Delete</button>
 
         <p>
             <a href="/contacts" class="btn btn-secondary">Back</a>
