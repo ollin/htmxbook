@@ -17,6 +17,7 @@ class ContactsController(
         model.addAttribute("contacts", contactRepository.fetchAll())
         return ModelAndView("index", model)
     }
+
     @GetMapping("/{id}")
     fun getContact(@PathVariable id: String, model: ModelMap): ModelAndView {
         val contact = contactRepository.findById(UUID.fromString(id))
@@ -42,18 +43,21 @@ class ContactsController(
         @ModelAttribute("newContact") newContact: NewContactForm,
         model: ModelMap,
         redirectAttributes: RedirectAttributes,
-        ): String {
+    ): String {
 
-        contactRepository.save(ContactUnsaved(
-            name = newContact.name,
-            email = newContact.email,
-            phone = newContact.phone
-        ))
+        contactRepository.save(
+            ContactUnsaved(
+                name = newContact.name,
+                email = newContact.email,
+                phone = newContact.phone
+            )
+        )
 
         redirectAttributes.addFlashAttribute("message", "Contact created")
 
         return "redirect:/contacts"
     }
+
     @PostMapping("/{id}/edit")
     fun handleEditContact(
         @ModelAttribute("contact") editContact: EditContactForm,
@@ -61,23 +65,22 @@ class ContactsController(
         redirectAttributes: RedirectAttributes,
     ): String {
 
-        contactRepository.save(Contact(
-            id = UUID.fromString(editContact.id),
-            name = editContact.name,
-            email = editContact.email,
-            phone = editContact.phone
-        ))
+        contactRepository.save(
+            Contact(
+                id = UUID.fromString(editContact.id),
+                name = editContact.name,
+                email = editContact.email,
+                phone = editContact.phone
+            )
+        )
 
         redirectAttributes.addFlashAttribute("message", "Contact saved")
 
         return "redirect:/contacts/${editContact.id}"
     }
-    @PostMapping("/{id}/delete")
-    fun handleDeleteContact(
-        @PathVariable id: String,
-        model: ModelMap,
-        redirectAttributes: RedirectAttributes,
-    ): String {
+
+    @DeleteMapping("/{id}")
+    fun deleteContact(@PathVariable id: String, model: ModelMap, redirectAttributes: RedirectAttributes): String {
         contactRepository.delete(UUID.fromString(id))
         redirectAttributes.addFlashAttribute("message", "Contact deleted")
         return "redirect:/contacts"
@@ -89,6 +92,7 @@ class NewContactForm {
     var email: String = ""
     var phone: String = ""
 }
+
 class EditContactForm {
     var id: String = ""
     var name: String = ""
