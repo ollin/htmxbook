@@ -3,7 +3,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout">
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Contacts</title>
     <!--/* Used only for editing in Pinegrow. Remove comment to display -->
@@ -64,7 +65,11 @@
             </fieldset>
         </form>
         <!--/*@thymesVar id="contact" type="com.nautsch.htmxbook.contactmanagement.Contact"*/-->
-        <button th:attr="hx-delete=@{/contacts/{id}(id=${contact.id})}" class="btn btn-primary">Delete</button>
+        <button
+                th:attr="hx-delete=@{/contacts/{id}(id=${contact.id})}"
+                hx-target="body"
+                hx-push-url="true"
+                class="btn btn-primary">Delete</button>
 
         <p>
             <a href="/contacts" class="btn btn-secondary">Back</a>
