@@ -47,18 +47,22 @@
                            placeholder="Email"
                            required
                            th:field="*{contact.email}">
-                    <div class="invalid-feedback">
-                        <span class="error" th:text="${#fields.errors('contact.email')}"></span>
-                    </div>
+                    <p th:if="${#fields.hasErrors('contact.email')}"
+                       th:errors="*{contact.email}"
+                       class="alert alert-danger"
+                       role="alert">
+                    </p>
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Phone</label>
                     <input type="text" class="form-control" id="phone" placeholder="+41 79 555 55 55" required
                            th:field="*{contact.phone}">
-                    <div class="invalid-feedback">
-                        <!-- <span class="error" th:text="${#fields.errors('phone')}"></span> -->
-                    </div>
+                    <p th:if="${#fields.hasErrors('contact.phone')}"
+                       th:errors="*{contact.phone}"
+                       class="alert alert-danger"
+                       role="alert">
+                    </p>
                 </div>
 
                 <div class="form-group d-flex">

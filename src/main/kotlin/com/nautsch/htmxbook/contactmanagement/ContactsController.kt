@@ -33,23 +33,26 @@ class ContactsController(
 
     @GetMapping("/new")
     fun contacts_new(model: ModelMap): ModelAndView {
-        model.addAttribute("newContact", ContactForm())
+        model.addAttribute("contact", ContactForm())
         return ModelAndView("new", model)
     }
 
     @PostMapping("/new")
     fun handleNewContact(
-        @ModelAttribute("newContact") newContact: ContactForm,
+        @Valid @ModelAttribute("contact") contact: ContactForm,
         bindingResult: BindingResult,
         model: ModelMap,
         redirectAttributes: RedirectAttributes,
     ): String {
+        if (bindingResult.hasErrors()) {
+            return "new"
+        }
 
         contactRepository.save(
             ContactUnsaved(
-                name = newContact.name,
-                email = newContact.email,
-                phone = newContact.phone
+                name = contact.name,
+                email = contact.email,
+                phone = contact.phone
             )
         )
 
@@ -70,7 +73,8 @@ class ContactsController(
 
     @PostMapping("/{id}/edit")
     fun handleEditContact(
-        @Valid @ModelAttribute("contact") editContact: EditContactForm,
+        @PathVariable id: String,
+        @Valid @ModelAttribute("contact") editContact: ContactForm,
         bindingResult: BindingResult,
         redirectAttributes: RedirectAttributes,
     ): String {
@@ -81,7 +85,7 @@ class ContactsController(
 
         contactRepository.save(
             Contact(
-                id = UUID.fromString(editContact.id),
+                id = UUID.fromString(id),
                 name = editContact.name,
                 email = editContact.email,
                 phone = editContact.phone
@@ -90,7 +94,7 @@ class ContactsController(
 
         redirectAttributes.addFlashAttribute("message", "Contact saved")
 
-        return "redirect:/contacts/${editContact.id}"
+        return "redirect:/contacts/${id}"
     }
 
     @DeleteMapping("/{id}")
@@ -108,15 +112,12 @@ class ContactsController(
 }
 
 open class ContactForm {
+    var id: String? = null
     @NotEmpty(message = "Contact's name cannot be empty.")
-    @Size(min = 3, max = 250)
+    @Size(min = 3, max = 250, message = "Contact's name must be between 3 and 250 characters.")
     var name: String = ""
     @NotEmpty(message = "Contact's email cannot be empty.")
     var email: String = ""
     @NotEmpty(message = "Contact's phone cannot be empty.")
     var phone: String = ""
-}
-
-class EditContactForm : ContactForm(){
-    var id: String = ""
 }
