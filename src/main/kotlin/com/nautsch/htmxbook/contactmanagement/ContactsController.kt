@@ -72,9 +72,12 @@ class ContactsController(
     fun handleEditContact(
         @Valid @ModelAttribute("contact") editContact: EditContactForm,
         bindingResult: BindingResult,
-        model: ModelMap,
         redirectAttributes: RedirectAttributes,
     ): String {
+
+        if (bindingResult.hasErrors()) {
+            return "edit"
+        }
 
         contactRepository.save(
             Contact(

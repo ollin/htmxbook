@@ -32,10 +32,12 @@
                            id="name"
                            placeholder="Name"
                            required
-                           th:field="*{contact.name}">
-                    <div class="invalid-feedback">
-                        <p th:if="${#fields.hasErrors('contact.name')}" th:errorclass="error" th:errors="*{name}" />
-                    </div>
+                           th:field="*{contact.name}"></input>
+                    <p th:if="${#fields.hasErrors('contact.name')}"
+                       th:errors="*{contact.name}"
+                       class="alert alert-danger"
+                       role="alert">
+                    </p>
                 </div>
 
                 <div class="form-group">
@@ -46,7 +48,7 @@
                            required
                            th:field="*{contact.email}">
                     <div class="invalid-feedback">
-                        <!-- <span class="error" th:text="${#fields.errors('email')}"></span> -->
+                        <span class="error" th:text="${#fields.errors('contact.email')}"></span>
                     </div>
                 </div>
 
@@ -70,7 +72,8 @@
                 hx-target="body"
                 hx-push-url="true"
                 hx-confirm="Are you sure you want to delete this contact?"
-                class="btn btn-primary">Delete</button>
+                class="btn btn-primary">Delete
+        </button>
 
         <p>
             <a href="/contacts" class="btn btn-secondary">Back</a>
