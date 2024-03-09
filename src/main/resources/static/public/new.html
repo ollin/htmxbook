@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}"
-      xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>Contacts</title>
@@ -25,8 +25,16 @@
                 <legend>Contact Values</legend>
 
                 <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name" required th:field="*{contact.name}">
+                    <label id="name.label"
+                           for="name.input">
+                        Name
+                    </label>
+                    <input id="name.input"
+                           type="text"
+                           class="form-control"
+                           placeholder="Name"
+                           required
+                           th:field="*{contact.name}">
                     <p th:if="${#fields.hasErrors('contact.name')}"
                        th:errors="*{contact.name}"
                        class="alert alert-danger"
@@ -35,8 +43,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Email" required th:field="*{contact.email}">
+                    <label id="email.label"
+                           for="email.input">Email</label>
+                    <input id="email.input"
+                           type="email"
+                           class="form-control"
+                           placeholder="Email"
+                           required
+                           th:field="*{contact.email}">
                     <p th:if="${#fields.hasErrors('contact.email')}"
                        th:errors="*{contact.email}"
                        class="alert alert-danger"
@@ -45,8 +59,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input type="text" class="form-control" id="phone" placeholder="+41 79 555 55 55" required th:field="*{contact.phone}" >
+                    <label id="phone.label"
+                           for="phone.input">
+                        Phone
+                    </label>
+                    <input id="phone.input"
+                           type="tel"
+                           class="form-control"
+                           placeholder="+41 79 555 55 55"
+                           required
+                           th:field="*{contact.phone}">
                     <p th:if="${#fields.hasErrors('contact.phone')}"
                        th:errors="*{contact.phone}"
                        class="alert alert-danger"
