@@ -19,17 +19,17 @@
         </div>
     </div>
     <div class="container">
-        <!--/*@thymesVar id="contact" type="com.nautsch.htmxbook.contactmanagement.ContactForm"*/-->
+        <!--/*@thymesVar id="contact" type="com.nautsch.htmxbook.contactmanagement.EditContactForm"*/-->
         <form action="#" th:action="@{/contacts/new}" method="post" class="needs-validation" novalidate>
             <fieldset>
                 <legend>Contact Values</legend>
 
                 <div class="form-group">
-                    <label id="name.label"
-                           for="name.input">
+                    <label id="name_label"
+                           for="name_input">
                         Name
                     </label>
-                    <input id="name.input"
+                    <input id="name_input"
                            type="text"
                            class="form-control"
                            placeholder="Name"
@@ -43,27 +43,34 @@
                 </div>
 
                 <div class="form-group">
-                    <label id="email.label"
-                           for="email.input">Email</label>
-                    <input id="email.input"
-                           type="email"
-                           class="form-control"
-                           placeholder="Email"
-                           required
-                           th:field="*{contact.email}">
-                    <p th:if="${#fields.hasErrors('contact.email')}"
-                       th:errors="*{contact.email}"
-                       class="alert alert-danger"
-                       role="alert">
-                    </p>
+                    <label
+                            id="email_label"
+                            for="email_input"
+                    >
+                        Email
+                    </label>
+                    <input
+                            id="email_input"
+                            type="email"
+                            class="form-control"
+                            placeholder="Email"
+                            required
+                            th:field="*{contact.email}"
+
+                            hx-trigger="change, keyup delay:250ms changed"
+                            hx-get="/contacts/email_unique_validation"
+                            hx-target="#contact_email_error"
+                            hx-swap="innerHTML"
+                    >
+                    <div id="contact_email_error" th:replace="~{fragments/errors :: contact_email_error}" />
                 </div>
 
                 <div class="form-group">
-                    <label id="phone.label"
-                           for="phone.input">
+                    <label id="phone_label"
+                           for="phone_input">
                         Phone
                     </label>
-                    <input id="phone.input"
+                    <input id="phone_input"
                            type="tel"
                            class="form-control"
                            placeholder="+41 79 555 55 55"

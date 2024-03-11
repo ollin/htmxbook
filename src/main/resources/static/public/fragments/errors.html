@@ -1,0 +1,30 @@
+<!--/* Used only for editing in Pinegrow. Remove comment to display -->
+<!doctype html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Contacts Email Error Paragraph</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<!--*/-->
+
+<div id="contact_email_error" th:fragment="contact_email_error">
+    <p
+            th:if="${#fields.hasErrors('contact.email')}"
+            th:errors="*{contact.email}"
+            class="alert alert-danger"
+            role="alert"
+    >
+    </p>
+</div>
+
+<!--/* Used only for editing in Pinegrow. Remove comment to display -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+<!--*/-->

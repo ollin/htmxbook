@@ -9,23 +9,23 @@ import java.util.*
 
 @Repository
 class ContactRepository(
-    private val create: DSLContext
+    private val dsl: DSLContext
 ) {
 
     init {
-        create.newRecord(CONTACT).apply {
+        dsl.newRecord(CONTACT).apply {
             id = UUID.randomUUID()
             name = "John Doe"
             email = "john.doe@mail.local"
             phone = "+1234567890"
         }.store()
-        create.newRecord(CONTACT).apply {
+        dsl.newRecord(CONTACT).apply {
             id = UUID.randomUUID()
             name = "Melly Blubber"
             email = "melly.blubber@mail.local"
             phone = "+1234567891"
         }.store()
-        create.newRecord(CONTACT).apply {
+        dsl.newRecord(CONTACT).apply {
             id = UUID.randomUUID()
             name = "Dolly Fluff"
             email = "dolly.fluff@mail.local"
@@ -33,16 +33,20 @@ class ContactRepository(
         }.store()
     }
     fun fetchAll(): List<Contact> {
-        return create.selectFrom(CONTACT)
+        return dsl.selectFrom(CONTACT)
             .fetch()
             .map { it.toModel() }
     }
 
     fun findById(uuid: UUID): Contact? {
-        return create.selectFrom(CONTACT)
+        return dsl.selectFrom(CONTACT)
             .where(CONTACT.ID.eq(uuid))  // bitte passen Sie diese Zeile Ihren tatsächlichen Tabellennamen und Feldnamen an
             .fetchOne()
             ?.toModel()
+    }
+
+    fun isExisting(email:String): Boolean {
+        return dsl.fetchExists(dsl.selectFrom(CONTACT).where(CONTACT.EMAIL.eq(email)))
     }
 
     fun save(contact: Contact) {
@@ -53,7 +57,7 @@ class ContactRepository(
     }
 
     fun delete(id: UUID) {
-        create.deleteFrom(CONTACT)
+        dsl.deleteFrom(CONTACT)
             .where(CONTACT.ID.eq(id))
             .execute()
     }
@@ -66,7 +70,7 @@ class ContactRepository(
     )
 
     private fun Contact.toRecord(): ContactRecord {
-        return create.newRecord(CONTACT).apply {
+        return dsl.newRecord(CONTACT).apply {
             id = this@toRecord.id
             name = this@toRecord.name
             email = this@toRecord.email
@@ -74,7 +78,7 @@ class ContactRepository(
         }
     }
     private fun ContactUnsaved.toRecord(): ContactRecord {
-        return create.newRecord(CONTACT).apply {
+        return dsl.newRecord(CONTACT).apply {
             id = UUID.randomUUID()
             name = this@toRecord.name
             email = this@toRecord.email

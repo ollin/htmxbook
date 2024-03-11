@@ -2,16 +2,19 @@ package com.nautsch.htmxbook.contactmanagement
 
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.servlet.http.HttpServletResponse.SC_SEE_OTHER
-import jakarta.validation.Valid
+import jakarta.validation.*
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.Size
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
+import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.validation.BindingResult
+import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.util.*
+import kotlin.reflect.KClass
 
 @Controller
 @RequestMapping("/contacts")
@@ -31,15 +34,33 @@ class ContactsController(
         return ModelAndView("show", model)
     }
 
+    @GetMapping("/email_unique_validation")
+    fun validateEmailUniquness(
+        @RequestParam(required = false) email: String?,
+        model: ModelMap,
+    ): Any {
+        val bindingResult = BeanPropertyBindingResult(NewContactForm(), "contact")
+
+        if (email != null) {
+            val isExisting = contactRepository.isExisting(email)
+
+            if (isExisting) {
+                bindingResult.addError(FieldError("contact", "email", "Email already exists."))
+            }
+        }
+
+        return ModelAndView("fragments/errors :: contact_email_error", bindingResult.model)
+    }
+
     @GetMapping("/new")
     fun contacts_new(model: ModelMap): ModelAndView {
-        model.addAttribute("contact", ContactForm())
+        model.addAttribute("contact", NewContactForm())
         return ModelAndView("new", model)
     }
 
     @PostMapping("/new")
     fun handleNewContact(
-        @Valid @ModelAttribute("contact") contact: ContactForm,
+        @Valid @ModelAttribute("contact") contact: NewContactForm,
         bindingResult: BindingResult,
         model: ModelMap,
         redirectAttributes: RedirectAttributes,
@@ -74,7 +95,7 @@ class ContactsController(
     @PostMapping("/{id}/edit")
     fun handleEditContact(
         @PathVariable id: String,
-        @Valid @ModelAttribute("contact") editContact: ContactForm,
+        @Valid @ModelAttribute("contact") editContact: EditContactForm,
         bindingResult: BindingResult,
         redirectAttributes: RedirectAttributes,
     ): String {
@@ -112,12 +133,46 @@ class ContactsController(
 }
 
 open class ContactForm {
-    var id: String? = null
+
     @NotEmpty(message = "Contact's name cannot be empty.")
     @Size(min = 3, max = 250, message = "Contact's name must be between 3 and 250 characters.")
     var name: String = ""
-    @NotEmpty(message = "Contact's email cannot be empty.")
-    var email: String = ""
+
     @NotEmpty(message = "Contact's phone cannot be empty.")
     var phone: String = ""
+}
+
+open class NewContactForm: ContactForm() {
+
+    @NotEmpty(message = "Contact's email cannot be empty.")
+    @UniqueEmail
+    var email: String = ""
+}
+
+open class EditContactForm : ContactForm() {
+    @NotEmpty(message = "Contact's id cannot be empty.")
+    var id: String = ""
+
+
+    @NotEmpty(message = "Contact's email cannot be empty.")
+    var email: String = ""
+}
+
+@Constraint(validatedBy = [UniqueEmailValidator::class])
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
+annotation class UniqueEmail(
+    val message: String = "Email already exists.",
+    val groups: Array<KClass<*>> = [],
+    val payload: Array<KClass<out Payload>> = []
+)
+
+class UniqueEmailValidator(private val repository: ContactRepository) : ConstraintValidator<UniqueEmail, String> {
+
+    override fun isValid(email: String?, context: ConstraintValidatorContext?): Boolean {
+        if (email == null) {
+            return false
+        }
+        return repository.isExisting(email).not()
+    }
 }

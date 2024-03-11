@@ -26,15 +26,15 @@
                 <legend>Contact Values</legend>
 
                 <div class="form-group">
-                    <label id="name.label"
-                           for="name.input">Name</label>
-                    <input id="name.input"
+                    <label id="name_label"
+                           for="name_input">Name</label>
+                    <input id="name_input"
                            type="text"
                            class="form-control"
                            placeholder="Name"
                            required
                            th:field="*{contact.name}"></input>
-                    <p id="name.error"
+                    <p id="name_error"
                        th:if="${#fields.hasErrors('contact.name')}"
                        th:errors="*{contact.name}"
                        class="alert alert-danger"
@@ -43,28 +43,32 @@
                 </div>
 
                 <div class="form-group">
-                    <label id="email.label"
-                           for="email.input">Email</label>
-                    <input id="email.input"
-                           type="email"
-                           class="form-control"
-                           placeholder="Email"
-                           required
-                           th:field="*{contact.email}">
-                    <p id="email.error"
-                       th:if="${#fields.hasErrors('contact.email')}"
-                       th:errors="*{contact.email}"
-                       class="alert alert-danger"
-                       role="alert">
+                    <label
+                            id="email_label"
+                            for="email_input">Email</label>
+                    <input
+                            id="email_input"
+                            type="email"
+                            class="form-control"
+                            placeholder="Email"
+                            required
+                            th:field="*{contact.email}"
+                    >
+                    <p
+                            id="email_error"
+                            th:if="${#fields.hasErrors('contact.email')}"
+                            th:errors="*{contact.email}"
+                            class="alert alert-danger"
+                            role="alert">
                     </p>
                 </div>
 
                 <div class="form-group">
-                    <label id="phone.label"
-                           for="phone.input">Phone</label>
-                    <input id="phone.input"
+                    <label id="phone_label"
+                           for="phone_input">Phone</label>
+                    <input id="phone_input"
                            type="tel"
-                           class="form-control" id="phone"
+                           class="form-control"
                            placeholder="+41 79 555 55 55"
                            required
                            th:field="*{contact.phone}">
