@@ -1,8 +1,13 @@
 package com.nautsch.htmxbook.contactmanagement
 
+import io.github.serpro69.kfaker.Faker
+import io.github.serpro69.kfaker.fakerConfig
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.CONTACT
 import org.jooq.generated.tables.records.ContactRecord
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -13,29 +18,31 @@ class ContactRepository(
 ) {
 
     init {
-        dsl.newRecord(CONTACT).apply {
-            id = UUID.randomUUID()
-            name = "John Doe"
-            email = "john.doe@mail.local"
-            phone = "+1234567890"
-        }.store()
-        dsl.newRecord(CONTACT).apply {
-            id = UUID.randomUUID()
-            name = "Melly Blubber"
-            email = "melly.blubber@mail.local"
-            phone = "+1234567891"
-        }.store()
-        dsl.newRecord(CONTACT).apply {
-            id = UUID.randomUUID()
-            name = "Dolly Fluff"
-            email = "dolly.fluff@mail.local"
-            phone = "+1234567892"
-        }.store()
+        val config = fakerConfig { locale = "de-CH" }
+        val faker = Faker(config)
+        for (i in 1..99) {
+            dsl.newRecord(CONTACT).apply {
+                id = UUID.randomUUID()
+                name = faker.name.name()
+                email = faker.internet.email()
+                phone = faker.phoneNumber.phoneNumber()
+            }.store()
+        }
     }
     fun fetchAll(): List<Contact> {
         return dsl.selectFrom(CONTACT)
             .fetch()
             .map { it.toModel() }
+    }
+    fun fetchAll(pageable: Pageable): Page<Contact> {
+        val total = dsl.fetchCount(CONTACT)
+        val contacts = dsl.selectFrom(CONTACT)
+            .limit(pageable.pageSize)
+            .offset(pageable.offset)
+            .fetch()
+            .map { it.toModel() }
+
+        return PageImpl(contacts, pageable, total.toLong())
     }
 
     fun findById(uuid: UUID): Contact? {

@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}"
-      xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>Contacts</title>
@@ -30,7 +30,8 @@
             </thead>
             <tbody>
 
-            <tr th:each="contact : ${contacts}">
+            <!--/*@thymesVar id="contactsPage" type="org.springframework.data.domain.Page<com.nautsch.htmxbook.contactmanagement.Contact>"*/-->
+            <tr th:each="contact : ${contactsPage.getContent()}">
                 <td th:text="${contact.name}"></td>
                 <td th:text="${contact.phone}"></td>
                 <td th:text="${contact.email}"></td>
@@ -40,35 +41,15 @@
                 </td>
             </tr>
 
-            <!--/* for prototyping-->
-            <tr>
-                <td>Mr. Proto</td>
-                <td>+41 79 411 11 11</td>
-                <td>mr.proto@mail.local</td>
-                <td>
-                    <a href="" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="" class="btn btn-secondary btn-sm">View</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Ms. Proto</td>
-                <td>+41 79 411 11 12</td>
-                <td>ms.proto@mail.local</td>
-                <td>
-                    <a href="" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="" class="btn btn-secondary btn-sm">View</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Berry Proto</td>
-                <td>+41 79 411 11 13</td>
-                <td>berry.proto@mail.local</td>
-                <td>
-                    <a href="" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="" class="btn btn-secondary btn-sm">View</a>
-                </td>
-            </tr>
-            <!--*/-->
+            <div>
+            <span style="float: right">
+                <a th:if="${contactsPage.hasPrevious()}"
+                   th:href="@{/contacts(page=${contactsPage.previousPageable().getPageNumber()})}">Previous</a>
+                <a th:if="${contactsPage.hasNext()}"
+                   th:href="@{/contacts(page=${contactsPage.nextPageable().getPageNumber()})}">Next</a>
+            </span>
+            </div>
+
             </tbody>
         </table>
         <p class="text-right">

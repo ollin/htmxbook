@@ -5,6 +5,12 @@ import jakarta.servlet.http.HttpServletResponse.SC_SEE_OTHER
 import jakarta.validation.*
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.Size
+import org.slf4j.LoggerFactory
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
+import org.springframework.data.web.SortDefault
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.validation.BeanPropertyBindingResult
@@ -21,9 +27,23 @@ import kotlin.reflect.KClass
 class ContactsController(
     private val contactRepository: ContactRepository
 ) {
+
+    companion object {
+        const val DEFAULT_PAGE_SIZE = 10
+        val log = LoggerFactory.getLogger(ContactsController::class.java)
+        val DEFAULT_PAGE_REQUEST = PageRequest.of(0, DEFAULT_PAGE_SIZE).withSort(Sort.by("email").descending())
+    }
     @GetMapping("")
-    fun contacts(model: ModelMap): ModelAndView {
-        model.addAttribute("contacts", contactRepository.fetchAll())
+    fun contacts(
+        @PageableDefault(size = DEFAULT_PAGE_SIZE)
+        @SortDefault.SortDefaults(
+            SortDefault(
+                sort = ["email"],
+                direction = Sort.Direction.DESC)
+        ) pageable: Pageable = DEFAULT_PAGE_REQUEST,
+        model: ModelMap,
+    ): ModelAndView {
+        model.addAttribute("contactsPage", contactRepository.fetchAll(pageable))
         return ModelAndView("index", model)
     }
 
