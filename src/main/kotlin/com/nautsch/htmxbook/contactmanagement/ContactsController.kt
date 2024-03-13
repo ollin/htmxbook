@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
-import org.springframework.data.web.PageableDefault
-import org.springframework.data.web.SortDefault
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.validation.BeanPropertyBindingResult
@@ -35,16 +33,41 @@ class ContactsController(
     }
     @GetMapping("")
     fun contacts(
-        @PageableDefault(size = DEFAULT_PAGE_SIZE)
-        @SortDefault.SortDefaults(
-            SortDefault(
-                sort = ["email"],
-                direction = Sort.Direction.DESC)
-        ) pageable: Pageable = DEFAULT_PAGE_REQUEST,
+        @RequestParam(defaultValue = "1") page: Int,
+        @RequestParam(defaultValue = "5") size: Int,
+        @RequestParam(defaultValue = "email,asc") sort: Array<String>,
         model: ModelMap,
     ): ModelAndView {
-        model.addAttribute("contactsPage", contactRepository.fetchAll(pageable))
+        try {
+            val contactsPage = contactRepository.fetchAll(pageable(sort, page, size))
+
+            model.addAttribute("contactsPage", contactsPage)
+            model.addAttribute("contacts", contactsPage.content)
+            model.addAttribute("currentPage", contactsPage.number + 1)
+            model.addAttribute("totalItems", contactsPage.totalElements)
+            model.addAttribute("totalPages", contactsPage.totalPages)
+            model.addAttribute("pageSize", contactsPage.size)
+        } catch (e: Exception) {
+            log.error("Error fetching contacts", e)
+            model.addAttribute("message", "Error fetching contacts")
+        }
+
         return ModelAndView("index", model)
+    }
+
+    private fun pageable(
+        sort: Array<String>,
+        page: Int,
+        size: Int
+    ): Pageable {
+        val sortField = sort[0]
+        val sortDirection = sort[1]
+
+        val direction = if (sortDirection == "desc") Sort.Direction.DESC else Sort.Direction.ASC
+        val order = Sort.Order(direction, sortField)
+
+        val pageable: Pageable = PageRequest.of(page, size, Sort.by(order))
+        return pageable
     }
 
     @GetMapping("/{id}")

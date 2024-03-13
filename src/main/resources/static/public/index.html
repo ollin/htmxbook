@@ -19,6 +19,10 @@
         </div>
     </div>
     <div class="container">
+        <p class="text-right">
+            <a href="/contacts/new" class="btn btn-primary float-end">Add Contact</a>
+        </p>
+        
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
@@ -41,20 +45,38 @@
                 </td>
             </tr>
 
-            <div>
-            <span style="float: right">
-                <a th:if="${contactsPage.hasPrevious()}"
-                   th:href="@{/contacts(page=${contactsPage.previousPageable().getPageNumber()})}">Previous</a>
-                <a th:if="${contactsPage.hasNext()}"
-                   th:href="@{/contacts(page=${contactsPage.nextPageable().getPageNumber()})}">Next</a>
-            </span>
-            </div>
+
 
             </tbody>
         </table>
-        <p class="text-right">
-            <a href="/contacts/new" class="btn btn-primary float-end">Add Contact</a>
-        </p>
+        <!--/*@thymesVar id="contactsPage" type="org.springframework.data.domain.Page<com.nautsch.htmxbook.contactmanagement.Contact>"*/-->
+        <nav aria-label="Pagination" th:if="${contactsPage.totalPages > 0}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${contactsPage.number == 0} ? 'disabled'">
+                    <a th:replace="fragments/paging :: paging(1, '<<', 'First Page')"></a>
+                </li>
+                <li class="page-item font-weight-bold" th:classappend="${contactsPage.number == 0} ? 'disabled'">
+                    <a th:replace="fragments/paging :: paging(${contactsPage.number - 1}, 'Prev', 'Previous Page')"></a>
+                </li>
+                <li class="page-item disabled" th:if="${contactsPage.number - 1 > 1}">
+                    <a class="page-link" href="#">...</a>
+                </li>
+                <!--/*@thymesVar id="contactsPage" type="org.springframework.data.domain.Page<com.nautsch.htmxbook.contactmanagement.Contact>"*/-->
+                <li class="page-item" th:classappend="${page == contactsPage.number} ? 'active'"
+                    th:each="page : ${#numbers.sequence(contactsPage.number > 1 ? contactsPage.number - 1 : 0 , contactsPage.number < contactsPage.totalPages ? contactsPage.number + 1 : contactsPage.totalPages)}">
+                    <a th:replace="fragments/paging :: paging(${page}, ${page}, 'Page ' + ${page})"></a>
+                </li>
+                <li class="page-item disabled" th:if="${contactsPage.number + 1 < contactsPage.totalPages}">
+                    <a class="page-link" href="#">...</a>
+                </li>
+                <li class="page-item font-weight-bold" th:classappend="${! contactsPage.hasNext()} ? 'disabled'">
+                    <a th:replace="fragments/paging :: paging(${contactsPage.number + 1},'Next', 'Next Page')"></a>
+                </li>
+                <li class="page-item" th:classappend="${contactsPage.isLast()} ? 'disabled'">
+                    <a th:replace="fragments/paging :: paging(${totalPages}, '>>', 'Last Page')"></a>
+                </li>
+            </ul>
+        </nav>        
     </div>
 </section>
 <!--/* Used only for editing in Pinegrow. Remove comment to display -->
