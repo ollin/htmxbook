@@ -53,7 +53,7 @@
         <nav aria-label="Pagination" th:if="${contactsPage.totalPages > 0}">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:classappend="${contactsPage.number == 0} ? 'disabled'">
-                    <a th:replace="fragments/paging :: paging(1, '<<', 'First Page')"></a>
+                    <a th:replace="fragments/paging :: paging(0, '<<', 'First Page')"></a>
                 </li>
                 <li class="page-item font-weight-bold" th:classappend="${contactsPage.number == 0} ? 'disabled'">
                     <a th:replace="fragments/paging :: paging(${contactsPage.number - 1}, 'Prev', 'Previous Page')"></a>

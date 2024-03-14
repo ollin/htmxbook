@@ -50,6 +50,7 @@ dependencies {
     runtimeOnly(libs.spring.boot.devtools)
 
     testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.bundles.kotest)
 }
 
 idea {
