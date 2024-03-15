@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.validation.BeanPropertyBindingResult
@@ -77,6 +78,11 @@ class ContactsController(
 
         val pageable: Pageable = PageRequest.of(page, size, Sort.by(order))
         return pageable
+    }
+
+    @GetMapping("/count")
+    fun count(): ResponseEntity<String> {
+        return ResponseEntity.ok("Total: ${contactRepository.count()}")
     }
 
     @GetMapping("/{id}")

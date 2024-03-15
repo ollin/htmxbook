@@ -111,5 +111,9 @@ class ContactRepository(
 
         return PageImpl(contacts, pageable, total.toLong())
     }
+
+    fun count(): Int {
+        return dsl.fetchCount(CONTACT)
+    }
 }
 

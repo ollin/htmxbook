@@ -42,7 +42,12 @@
                          alt="Searching..."/>
                     <input type="submit" class="btn btn-primary" value="Search"/>
                 </div>
-                <a href="/contacts/new" class="btn btn-primary">Add Contact</a>
+                <div>
+                    <span
+                            class="badge text-bg-secondary"
+                            hx-get="/contacts/count" hx-trigger="load"></span>
+                    <a href="/contacts/new" class="btn btn-primary">Add Contact</a>
+                </div>
             </div>
         </form>
 
