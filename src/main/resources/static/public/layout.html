@@ -21,11 +21,8 @@ http://www.ultraq.net.nz/thymeleaf/layout ">
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}">
     <style>
         .htmx-indicator {
-            background-color: black;
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            width: 60px;
+            background-color: white;
+            width: 40px;
             padding: 5px 5px 5px 5px
         }
     </style>
@@ -49,7 +46,8 @@ http://www.ultraq.net.nz/thymeleaf/layout ">
 <section layout:fragment="content">
     <p>Page content goes here</p>
 </section>
-<img alt="Loading Indicator" class="htmx-indicator"
-     src="https://raw.githubusercontent.com/SamHerbert/SVG-Loaders/master/svg-loaders/spinning-circles.svg"/>
+<img alt="Loading..."
+     class="htmx-indicator"
+     src="/static/public/images/ball-triangle.svg"/>
 </body>
 </html>

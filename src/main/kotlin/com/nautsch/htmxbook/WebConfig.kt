@@ -53,5 +53,11 @@ class WebConfig : WebMvcConfigurer {
             .addResourceHandler("/webjars/**")
             .addResourceLocations("classpath:/META-INF/resources/webjars/")
             .resourceChain(false)
+        registry
+            .addResourceHandler("/static/public/images/**")
+            .addResourceLocations("classpath:/static/public/images/")
+            .resourceChain(true)
     }
+
+
 }

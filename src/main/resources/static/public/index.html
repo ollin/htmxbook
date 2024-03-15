@@ -21,21 +21,26 @@
     <div class="container">
         <form action="/contacts" method="get">
             <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-baseline">
-                    <div class="form-group mb-0 me-2">
-                        <input
-                                id="search"
-                                class="form-control"
-                                type="search"
-                                name="query"
-                                th:value="${param.query}"
-                                hx-get="/contacts"
-                                hx-trigger="from:search, keyup delay:300ms changed"
-                                hx-target="tbody"
-                                hx-push-url="true"
-                        />
-                    </div>
-                    <input type="submit" class="btn btn-primary" value="Search" />
+                <div class="d-flex" style="position: relative;">
+                    <input
+                            id="search"
+                            class="form-control"
+                            type="search"
+                            name="query"
+                            th:value="${param.query}"
+                            hx-get="/contacts"
+                            hx-trigger="from:search, keyup delay:300ms changed"
+                            hx-target="tbody"
+                            hx-push-url="true"
+                            hx-indicator="#spinner"
+                    />
+
+                    <img id="spinner"
+                         class="htmx-indicator"
+                         src="/static/public/images/ball-triangle.svg"
+                         style="background-color: white;"
+                         alt="Searching..."/>
+                    <input type="submit" class="btn btn-primary" value="Search"/>
                 </div>
                 <a href="/contacts/new" class="btn btn-primary">Add Contact</a>
             </div>
@@ -52,7 +57,7 @@
             </thead>
             <tbody>
 
-            <div id="contact_rows_slot" th:replace="~{fragments/rows :: contact_rows}" />
+            <div id="contact_rows_slot" th:replace="~{fragments/rows :: contact_rows}"/>
             </tbody>
         </table>
     </div>
