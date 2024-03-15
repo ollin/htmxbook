@@ -22,7 +22,7 @@
         <p class="text-right">
             <a href="/contacts/new" class="btn btn-primary float-end">Add Contact</a>
         </p>
-        
+
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
@@ -46,19 +46,13 @@
             </tr>
             <tr th:if="${contactsPage.getContent().size() <= 10}">
                 <td colspan="4" style="text-align: center">
-                    <button
-                            th:data-hx-get="@{/contacts (page=${contactsPage.number + 1}, size=${contactsPage.size})}"
-                            hx-target="closest tr"
-                            hx-swap="outerHTML"
-                            hx-select="tbody > tr"
-                            class="btn btn-secondary btn-sm">
-                        Load More
-                    </button>
+                    <span hx-target="closest tr"
+                          hx-trigger="revealed"
+                          hx-swap="outerHTML"
+                          hx-select="tbody > tr"
+                          th:data-hx-get="@{/contacts (page=${contactsPage.number + 1})}">Loading More...</span>
                 </td>
             </tr>
-
-
-
             </tbody>
         </table>
     </div>
