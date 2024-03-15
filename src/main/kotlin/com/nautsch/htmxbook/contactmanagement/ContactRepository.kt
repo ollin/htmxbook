@@ -92,5 +92,24 @@ class ContactRepository(
             phone = this@toRecord.phone
         }
     }
+
+    fun fetch(pageable: Pageable, query: String): Page<Contact> {
+        val total = dsl.fetchCount(CONTACT)
+        val contacts = dsl.selectFrom(CONTACT)
+            .where(
+                CONTACT.NAME.likeIgnoreCase("%$query%")
+            )
+            .or(
+                CONTACT.EMAIL.likeIgnoreCase("%$query%")
+            )
+            .or(
+                CONTACT.PHONE.likeIgnoreCase("%$query%")
+            )
+            .fetch()
+            .map { it ->
+                it.toModel() }
+
+        return PageImpl(contacts, pageable, total.toLong())
+    }
 }
 

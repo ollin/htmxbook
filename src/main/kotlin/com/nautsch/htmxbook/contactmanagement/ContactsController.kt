@@ -33,13 +33,17 @@ class ContactsController(
     }
     @GetMapping("")
     fun contacts(
-        @RequestParam(defaultValue = "1") page: Int,
-        @RequestParam(defaultValue = "5") size: Int,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "1000") size: Int,
         @RequestParam(defaultValue = "email,asc") sort: Array<String>,
+        @RequestParam(defaultValue = "") query: String,
         model: ModelMap,
     ): ModelAndView {
         try {
-            val contactsPage = contactRepository.fetchAll(pageable(sort, page, size))
+            val contactsPage = if ("".equals(query.trim()))
+                contactRepository.fetchAll(pageable(sort, page, size))
+            else
+                contactRepository.fetch(pageable(sort, page, size), query)
 
             model.addAttribute("contactsPage", contactsPage)
             model.addAttribute("contacts", contactsPage.content)
