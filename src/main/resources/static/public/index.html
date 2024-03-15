@@ -29,6 +29,9 @@
                                 type="search"
                                 name="query"
                                 th:value="${param.query}"
+                                hx-get="/contacts"
+                                hx-trigger="from:search, keyup delay:300ms changed"
+                                hx-target="tbody"
                         />
                     </div>
                     <input type="submit" class="btn btn-primary" value="Search" />
