@@ -57,6 +57,10 @@ class WebConfig : WebMvcConfigurer {
             .addResourceHandler("/static/public/images/**")
             .addResourceLocations("classpath:/static/public/images/")
             .resourceChain(true)
+        registry
+            .addResourceHandler("/static/public/css/**")
+            .addResourceLocations("classpath:/static/public/css/")
+            .resourceChain(true)
     }
 
 

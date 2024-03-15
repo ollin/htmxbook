@@ -82,7 +82,13 @@ class ContactsController(
 
     @GetMapping("/count")
     fun count(): ResponseEntity<String> {
-        return ResponseEntity.ok("Total: ${contactRepository.count()}")
+        try {
+            Thread.sleep(1000)
+            return ResponseEntity.ok("Total: ${contactRepository.count()}")
+        } catch (InterruptedException: Exception) {
+            Thread.currentThread().interrupt()
+            return ResponseEntity.status(500).body("Error fetching count")
+        }
     }
 
     @GetMapping("/{id}")
