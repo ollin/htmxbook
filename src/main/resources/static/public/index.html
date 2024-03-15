@@ -32,7 +32,6 @@
                                 hx-get="/contacts"
                                 hx-trigger="from:search, keyup delay:300ms changed"
                                 hx-target="tbody"
-                                hx-select="tbody tr"
                         />
                     </div>
                     <input type="submit" class="btn btn-primary" value="Search" />
@@ -52,16 +51,7 @@
             </thead>
             <tbody>
 
-            <!--/*@thymesVar id="contactsPage" type="org.springframework.data.domain.Page<com.nautsch.htmxbook.contactmanagement.Contact>"*/-->
-            <tr th:each="contact : ${contactsPage.getContent()}">
-                <td th:text="${contact.name}"></td>
-                <td th:text="${contact.phone}"></td>
-                <td th:text="${contact.email}"></td>
-                <td>
-                    <a th:href="@{/contacts/{id}/edit(id=${contact.id})}" class="btn btn-primary btn-sm">Edit</a>
-                    <a th:href="@{/contacts/{id}(id=${contact.id})}" class="btn btn-secondary btn-sm">View</a>
-                </td>
-            </tr>
+            <div id="contact_rows_slot" th:replace="~{fragments/rows :: contact_rows}" />
             </tbody>
         </table>
     </div>

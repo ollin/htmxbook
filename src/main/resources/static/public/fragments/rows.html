@@ -1,0 +1,10 @@
+<!--/*@thymesVar id="contactsPage" type="org.springframework.data.domain.Page<com.nautsch.htmxbook.contactmanagement.Contact>"*/-->
+<tr th:each="contact : ${contactsPage.getContent()}" th:fragment="contact_rows">
+    <td th:text="${contact.name}"></td>
+    <td th:text="${contact.phone}"></td>
+    <td th:text="${contact.email}"></td>
+    <td>
+        <a th:href="@{/contacts/{id}/edit(id=${contact.id})}" class="btn btn-primary btn-sm">Edit</a>
+        <a th:href="@{/contacts/{id}(id=${contact.id})}" class="btn btn-secondary btn-sm">View</a>
+    </td>
+</tr>

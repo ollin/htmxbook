@@ -37,6 +37,7 @@ class ContactsController(
         @RequestParam(defaultValue = "1000") size: Int,
         @RequestParam(defaultValue = "email,asc") sort: Array<String>,
         @RequestParam(defaultValue = "") query: String,
+        @RequestHeader("HX-Trigger") hx_trigger: String?,
         model: ModelMap,
     ): ModelAndView {
         try {
@@ -56,7 +57,11 @@ class ContactsController(
             model.addAttribute("message", "Error fetching contacts")
         }
 
+        if ("search".equals(hx_trigger)) {
+            return ModelAndView("fragments/rows :: contact_rows", model)
+        }
         return ModelAndView("index", model)
+
     }
 
     private fun pageable(
