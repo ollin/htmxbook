@@ -86,6 +86,7 @@
         </form>
         <!--/*@thymesVar id="contact" type="com.nautsch.htmxbook.contactmanagement.Contact"*/-->
         <button
+                id="contact_delete_button"
                 th:attr="hx-delete=@{/contacts/{id}(id=${contact.id})}"
                 hx-target="body"
                 hx-push-url="true"

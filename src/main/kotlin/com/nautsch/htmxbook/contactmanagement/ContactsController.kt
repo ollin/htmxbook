@@ -1,6 +1,7 @@
 package com.nautsch.htmxbook.contactmanagement
 
 import jakarta.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletResponse.SC_OK
 import jakarta.servlet.http.HttpServletResponse.SC_SEE_OTHER
 import jakarta.validation.*
 import jakarta.validation.constraints.NotEmpty
@@ -42,7 +43,7 @@ class ContactsController(
         model: ModelMap,
     ): ModelAndView {
         try {
-            val contactsPage = if ("".equals(query.trim()))
+            val contactsPage = if ("" == query.trim())
                 contactRepository.fetchAll(pageable(sort, page, size))
             else
                 contactRepository.fetch(pageable(sort, page, size), query)
@@ -58,7 +59,7 @@ class ContactsController(
             model.addAttribute("message", "Error fetching contacts")
         }
 
-        if ("search".equals(hx_trigger)) {
+        if ("search" == hx_trigger) {
             return ModelAndView("fragments/rows :: contact_rows", model)
         }
         return ModelAndView("index", model)
@@ -185,14 +186,21 @@ class ContactsController(
     @DeleteMapping("/{id}")
     fun deleteContact(
         @PathVariable id: String,
+        @RequestHeader("HX-Trigger") hx_trigger: String?,
         model: ModelMap,
         redirectAttributes: RedirectAttributes,
         response: HttpServletResponse
     ) {
         contactRepository.delete(UUID.fromString(id))
-        redirectAttributes.addFlashAttribute("message", "Contact deleted")
-        response.status = SC_SEE_OTHER
-        response.setHeader("Location", "/contacts")
+
+        if ("contact-delete-button" == hx_trigger) {
+            redirectAttributes.addFlashAttribute("message", "Contact deleted")
+            response.status = SC_SEE_OTHER
+            response.setHeader("Location", "/contacts")
+        }
+        else {
+            response.status = SC_OK
+        }
     }
 }
 
