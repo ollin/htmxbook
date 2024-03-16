@@ -1,5 +1,15 @@
 <!--/*@thymesVar id="contactsPage" type="org.springframework.data.domain.Page<com.nautsch.htmxbook.contactmanagement.Contact>"*/-->
 <tr th:each="contact : ${contactsPage.getContent()}" th:fragment="contact_rows">
+    <td>
+        <input
+                th:type="checkbox"
+                th:id="@{contact_selected_${contact.id}}"
+                th:name="selected_contact_ids"
+                th:value="${contact.id}"
+        >
+
+        </input>
+    </td>
     <td th:text="${contact.name}"></td>
     <td th:text="${contact.phone}"></td>
     <td th:text="${contact.email}"></td>

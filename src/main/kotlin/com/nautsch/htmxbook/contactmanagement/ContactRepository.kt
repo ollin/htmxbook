@@ -115,5 +115,12 @@ class ContactRepository(
     fun count(): Int {
         return dsl.fetchCount(CONTACT)
     }
+
+    fun delete(id: List<UUID>) {
+        dsl.deleteFrom(CONTACT)
+            .where(CONTACT.ID.`in`(id))
+            .execute()
+
+    }
 }
 

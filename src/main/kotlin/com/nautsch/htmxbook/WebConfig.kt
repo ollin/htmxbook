@@ -1,8 +1,12 @@
 package com.nautsch.htmxbook
 
 import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.boot.web.servlet.filter.OrderedFormContentFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.filter.FormContentFilter
 import org.springframework.web.servlet.ViewResolver
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
@@ -19,6 +23,18 @@ class WebConfig : WebMvcConfigurer {
 
     override fun configurePathMatch(configurer: PathMatchConfigurer) {
         configurer.setPatternParser(PathPatternParser())
+    }
+
+    /**
+     * enables the FormContentFilter to support form data in the request body, also for non-POST requests
+     *
+     * @see <a href="https://stackoverflow.com/a/74899675">x-www-form-urlencoded Array inconsistently populated in Spring REST call</a>
+     */
+    @Bean
+    @ConditionalOnMissingBean(FormContentFilter::class)
+    @ConditionalOnProperty(prefix = "spring.mvc.formcontent.filter", name = ["enabled"], matchIfMissing = true)
+    fun formContentFilter(): OrderedFormContentFilter {
+        return OrderedFormContentFilter()
     }
 
     @Bean

@@ -49,11 +49,6 @@ class ContactsController(
                 contactRepository.fetch(pageable(sort, page, size), query)
 
             model.addAttribute("contactsPage", contactsPage)
-            model.addAttribute("contacts", contactsPage.content)
-            model.addAttribute("currentPage", contactsPage.number + 1)
-            model.addAttribute("totalItems", contactsPage.totalElements)
-            model.addAttribute("totalPages", contactsPage.totalPages)
-            model.addAttribute("pageSize", contactsPage.size)
         } catch (e: Exception) {
             log.error("Error fetching contacts", e)
             model.addAttribute("message", "Error fetching contacts")
@@ -64,6 +59,32 @@ class ContactsController(
         }
         return ModelAndView("index", model)
 
+    }
+
+    data class SelectedContactIdList(
+        val selected_contact_ids: List<String>
+    )
+
+    @DeleteMapping("")
+    fun deleteContactList(
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "1000") size: Int,
+        @RequestParam(defaultValue = "email,asc") sort: Array<String>,
+        @RequestParam(name = "query" , defaultValue = "") query: String,
+        @RequestParam(name = "selected_contact_ids", defaultValue = "") selectedContactIds: List<String>,
+        model: ModelMap,
+    ): ModelAndView {
+        if (selectedContactIds.isNotEmpty()) {
+            contactRepository.delete(selectedContactIds.map { UUID.fromString(it) })
+        }
+
+        val contactsPage = if ("" == query.trim())
+            contactRepository.fetchAll(pageable(sort, page, size))
+        else
+            contactRepository.fetch(pageable(sort, page, size), query)
+
+        model.addAttribute("contactsPage", contactsPage)
+        return ModelAndView("index", model)
     }
 
     private fun pageable(
@@ -202,6 +223,7 @@ class ContactsController(
             response.status = SC_OK
         }
     }
+
 }
 
 open class ContactForm {
