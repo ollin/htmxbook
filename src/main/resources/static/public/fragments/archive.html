@@ -22,7 +22,7 @@
             th:case="'WAITING'"
             class="btn btn-primary"
             hx-post="/contacts/archive">
-            Download Contact Archive
+        Download Contact Archive
     </button>
     <div
             th:case="'RUNNING'"
@@ -35,22 +35,29 @@
             style="width: 200px;"
 
             hx-get="/contacts/archive"
-            hx-trigger="load delay:500ms"
+            hx-trigger="load delay:1000ms"
     >
         <div
-                class="progress-bar progress-bar-striped progress-bar-animated"
+                id="contact_list_archive_progress_bar"
+                class="progress-bar progress-bar-striped"
                 th:style="'width:' + ${archiver.progress} + '%'">
         </div>
     </div>
-    <a
-            th:case="*"
-
-            hx-boost="false"
-            href="/contacts/archive/file"
-            download
+    <div th:case="*"
+         class="d-flex align-items-center gap-2"
     >
-            Download ready. Click to download.
-    </a>
+        <a
+
+
+                hx-boost="false"
+                href="/contacts/archive/file"
+                download
+        >Download ready. Click to download.</a>
+        <button
+                hx-delete="/contacts/archive"
+                class="btn btn-primary"
+        >Clear Download</button>
+    </div>
 
 </div>
 

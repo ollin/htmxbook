@@ -143,8 +143,6 @@ class ContactsController(
     fun archiveFile(
         modelMap: ModelMap
     ): ResponseEntity<InputStreamResource> {
-        archiver.stop()
-
         val jsonString = objectMapper
             .writerWithDefaultPrettyPrinter()
             .writeValueAsString(contactRepository.fetchAll())
@@ -153,6 +151,15 @@ class ContactsController(
             .header("Content-Disposition", "attachment; filename=contacts.json")
             .contentType(MediaType.APPLICATION_JSON)
             .body(InputStreamResource(bis))
+    }
+    @DeleteMapping("/archive")
+    fun deleteArchive(
+        modelMap: ModelMap
+    ): ModelAndView {
+        archiver.stop()
+
+        modelMap.addAttribute("archiver", archiver)
+        return ModelAndView("fragments/archive :: contact_list_archive_ui", modelMap)
     }
 
     @GetMapping("/{id}")

@@ -28,9 +28,9 @@ class Archiver {
         _status = ArchiverStatus.RUNNING
 
         scope.launch {
-            for (i in 1..20) {
-                delay(500L) // simulate one second of work
-                _progress = i * 5 // increase progress by 10% each second
+            for (i in 1..10) {
+                delay(1000L) // simulate one second of work
+                _progress = i * 10 // increase progress by 10% each second
             }
             _status = ArchiverStatus.COMPLETED
         }
