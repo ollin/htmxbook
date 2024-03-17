@@ -29,6 +29,7 @@ dependencies {
     implementation(libs.thymeleaf.layout.dialect)
 //    implementation(libs.thymeleaf.extras.springsecurity5)
     implementation(libs.kotlin.reflect)
+    implementation(libs.kotlinxCoroutines)
     implementation(libs.fasterxml.jackson.module.kotlin)
 
     implementation(libs.kotlinFaker)

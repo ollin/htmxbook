@@ -1,0 +1,62 @@
+<!--/* Used only for editing in Pinegrow. Remove comment to display -->
+<!doctype html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Contacts Email Error Paragraph</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<!--*/-->
+<!--/*@thymesVar id="archiver" type="com.nautsch.htmxbook.contactmanagement.Archiver"*/-->
+<div th:fragment="contact_list_archive_ui"
+     id="contact_list_archive_ui"
+     hx-target="this"
+     hx-swap="outerHTML"
+     th:switch="${archiver.status}">
+
+    <button
+            th:case="'WAITING'"
+            class="btn btn-primary"
+            hx-post="/contacts/archive">
+            Download Contact Archive
+    </button>
+    <div
+            th:case="'RUNNING'"
+            class="progress"
+            role="progressbar"
+            aria-label="Animated striped"
+            th:attr="aria-valuenow=${archiver.progress}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            style="width: 200px;"
+
+            hx-get="/contacts/archive"
+            hx-trigger="load delay:500ms"
+    >
+        <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                th:style="'width:' + ${archiver.progress} + '%'">
+        </div>
+    </div>
+    <a
+            th:case="*"
+
+            hx-boost="false"
+            href="/contacts/archive/file"
+            download
+    >
+            Download ready. Click to download.
+    </a>
+
+</div>
+
+<!--/* Used only for editing in Pinegrow. Remove comment to display -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+<!--*/-->

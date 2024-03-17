@@ -1,5 +1,6 @@
 package com.nautsch.htmxbook.contactmanagement
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.servlet.http.HttpServletResponse.SC_OK
 import jakarta.servlet.http.HttpServletResponse.SC_SEE_OTHER
@@ -7,9 +8,11 @@ import jakarta.validation.*
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.Size
 import org.slf4j.LoggerFactory
+import org.springframework.core.io.InputStreamResource
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
@@ -19,13 +22,16 @@ import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import java.io.ByteArrayInputStream
 import java.util.*
 import kotlin.reflect.KClass
 
 @Controller
 @RequestMapping("/contacts")
 class ContactsController(
-    private val contactRepository: ContactRepository
+    private val contactRepository: ContactRepository,
+    private val archiver: Archiver,
+    private val objectMapper: ObjectMapper
 ) {
 
     companion object {
@@ -49,6 +55,7 @@ class ContactsController(
                 contactRepository.fetch(pageable(sort, page, size), query)
 
             model.addAttribute("contactsPage", contactsPage)
+            model.addAttribute("archiver", archiver)
         } catch (e: Exception) {
             log.error("Error fetching contacts", e)
             model.addAttribute("message", "Error fetching contacts")
@@ -111,6 +118,41 @@ class ContactsController(
             Thread.currentThread().interrupt()
             return ResponseEntity.status(500).body("Error fetching count")
         }
+    }
+    @PostMapping("/archive")
+    fun startArchive(
+        modelMap: ModelMap
+    ): ModelAndView {
+        archiver.start()
+
+        modelMap.addAttribute("archiver", archiver)
+        return ModelAndView("fragments/archive :: contact_list_archive_ui", modelMap)
+    }
+
+    @GetMapping("/archive")
+    fun archiveStatus(
+        modelMap: ModelMap
+    ): ModelAndView {
+        modelMap.addAttribute("archiver", archiver)
+        return ModelAndView("fragments/archive :: contact_list_archive_ui", modelMap)
+    }
+    @GetMapping(
+        "/archive/file",
+        produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE]
+    )
+    fun archiveFile(
+        modelMap: ModelMap
+    ): ResponseEntity<InputStreamResource> {
+        archiver.stop()
+
+        val jsonString = objectMapper
+            .writerWithDefaultPrettyPrinter()
+            .writeValueAsString(contactRepository.fetchAll())
+        val bis = ByteArrayInputStream(jsonString.toByteArray())
+        return ResponseEntity.ok()
+            .header("Content-Disposition", "attachment; filename=contacts.json")
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(InputStreamResource(bis))
     }
 
     @GetMapping("/{id}")

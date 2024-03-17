@@ -42,12 +42,13 @@
                          alt="Searching..."/>
                     <input type="submit" class="btn btn-primary" value="Search"/>
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center gap-2">
                     <div class="fs-6 me-3 d-flex align-items-center"
                          hx-get="/contacts/count"
                          hx-trigger="load">
                         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                     </div>
+                    <div id="contact_list_archive_ui" th:replace="~{fragments/archive :: contact_list_archive_ui}" />
                     <a href="/contacts/new" class="btn btn-primary">Add Contact</a>
                 </div>
             </div>
