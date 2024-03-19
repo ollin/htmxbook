@@ -11,16 +11,15 @@
 </head>
 <body>
 <!--*/-->
+<div
+        th:fragment="contact_email_error"
 
-<div id="contact_email_error" th:fragment="contact_email_error">
-    <p
-            th:if="${#fields.hasErrors('contact.email')}"
-            th:errors="*{contact.email}"
-            class="alert alert-danger"
-            role="alert"
-    >
-    </p>
+        id="contact_email_error"
+        class="invalid-feedback"
+>
+    <span th:if="${#fields.hasErrors('contact.email')}" th:errors="*{contact.email}"></span>
 </div>
+
 
 <!--/* Used only for editing in Pinegrow. Remove comment to display -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

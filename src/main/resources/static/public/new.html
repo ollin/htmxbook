@@ -32,38 +32,19 @@
                     <input id="name_input"
                            type="text"
                            class="form-control"
+                           th:classappend="${#fields.hasErrors('contact.name') ? 'is-invalid' : ''}"
                            placeholder="Name"
                            required
                            th:field="*{contact.name}">
-                    <p th:if="${#fields.hasErrors('contact.name')}"
-                       th:errors="*{contact.name}"
-                       class="alert alert-danger"
-                       role="alert">
-                    </p>
+                    <div
+                            id="contact_name_error"
+                            th:errors="*{contact.name}"
+                            class="invalid-feedback"
+                    >
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label
-                            id="email_label"
-                            for="email_input"
-                    >
-                        Email
-                    </label>
-                    <input
-                            id="email_input"
-                            type="email"
-                            class="form-control"
-                            placeholder="Email"
-                            required
-                            th:field="*{contact.email}"
-
-                            hx-trigger="change, keyup delay:250ms changed"
-                            hx-get="/contacts/email_unique_validation"
-                            hx-target="#contact_email_error"
-                            hx-swap="innerHTML"
-                    >
-                    <div id="contact_email_error" th:replace="~{fragments/errors :: contact_email_error}" />
-                </div>
+                <div th:replace="~{fragments/contact/email_new :: contact_email_form_group}" />
 
                 <div class="form-group">
                     <label id="phone_label"
@@ -73,14 +54,16 @@
                     <input id="phone_input"
                            type="tel"
                            class="form-control"
+                           th:classappend="${#fields.hasErrors('contact.phone') ? 'is-invalid' : ''}"
                            placeholder="+41 79 555 55 55"
                            required
                            th:field="*{contact.phone}">
-                    <p th:if="${#fields.hasErrors('contact.phone')}"
-                       th:errors="*{contact.phone}"
-                       class="alert alert-danger"
-                       role="alert">
-                    </p>
+                    <div
+                            id="contact_phone_error"
+                            th:errors="*{contact.phone}"
+                            class="invalid-feedback"
+                    >
+                    </div>
                 </div>
 
                 <div class="form-group d-flex justify-content-between">
