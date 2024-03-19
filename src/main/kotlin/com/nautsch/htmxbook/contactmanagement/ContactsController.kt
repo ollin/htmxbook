@@ -170,21 +170,33 @@ class ContactsController(
     }
 
     @GetMapping("/email_unique_validation")
-    fun validateEmailUniquness(
+    fun validateEmailUnique(
         @RequestParam(required = false) email: String?,
         model: ModelMap,
     ): Any {
-        val bindingResult = BeanPropertyBindingResult(NewContactForm(), "contact")
+        val tmpForm = NewContactForm().apply {
+            this.email = email ?: ""
+        }
+        val bindingResult = BeanPropertyBindingResult(tmpForm, "contact")
 
         if (email != null) {
             val isExisting = contactRepository.isExisting(email)
 
             if (isExisting) {
-                bindingResult.addError(FieldError("contact", "email", "Email already exists."))
+                bindingResult.addError(FieldError(
+                    "contact",
+                    "email",
+                    email,
+                    false,
+                    null,
+                    null,
+                    "Email already exists.",
+
+                ))
             }
         }
 
-        return ModelAndView("fragments/errors :: contact_email_error", bindingResult.model)
+        return ModelAndView("fragments/contact/email_new.html :: contact_email_form_group", bindingResult.model)
     }
 
     @GetMapping("/new")

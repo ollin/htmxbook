@@ -26,20 +26,22 @@
                 <legend>Contact Values</legend>
 
                 <div class="form-group">
-                    <label id="name_label"
-                           for="name_input">Name</label>
-                    <input id="name_input"
-                           type="text"
-                           class="form-control"
-                           placeholder="Name"
-                           required
-                           th:field="*{contact.name}"></input>
-                    <p id="name_error"
-                       th:if="${#fields.hasErrors('contact.name')}"
-                       th:errors="*{contact.name}"
-                       class="alert alert-danger"
-                       role="alert">
-                    </p>
+                    <label
+                            id="name_label"
+                            for="name_input">Name</label>
+                    <input
+                            id="name_input"
+                            type="text"
+                            class="form-control"
+                            th:classappend="${#fields.hasErrors('contact.name') ? 'is-invalid' : ''}"
+                            placeholder="Name"
+                            required
+                            th:field="*{contact.name}">
+                    <div
+                            th:if="${#fields.hasErrors('contact.name')}"
+                            th:errors="*{contact.name}"
+                            class="invalid-feedback">
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -50,35 +52,43 @@
                             id="email_input"
                             type="email"
                             class="form-control"
+                            th:classappend="${#fields.hasErrors('contact.email') ? 'is-invalid' : ''}"
                             placeholder="Email"
                             required
                             th:field="*{contact.email}"
                     >
-                    <p
-                            id="email_error"
+                    <div
+                            id="contact_email_error"
                             th:if="${#fields.hasErrors('contact.email')}"
                             th:errors="*{contact.email}"
-                            class="alert alert-danger"
-                            role="alert">
-                    </p>
+                            class="invalid-feedback">
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label id="phone_label"
-                           for="phone_input">Phone</label>
-                    <input id="phone_input"
-                           type="tel"
-                           class="form-control"
-                           placeholder="+41 79 555 55 55"
-                           required
-                           th:field="*{contact.phone}">
-                    <p th:if="${#fields.hasErrors('contact.phone')}"
-                       th:errors="*{contact.phone}"
-                       class="alert alert-danger"
-                       role="alert">
-                    </p>
+                    <label
+                            id="phone_label"
+                            for="phone_input">Phone</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend3">@</span>
+                        </div>
+                        <input
+                                id="phone_input"
+                                type="tel"
+                                class="form-control"
+                                th:classappend="${#fields.hasErrors('contact.phone') ? 'is-invalid' : ''}"
+                                placeholder="+41 79 555 55 55"
+                                required
+                                th:field="*{contact.phone}"
+                        >
+                        <div
+                                th:if="${#fields.hasErrors('contact.phone')}"
+                                th:errors="*{contact.phone}"
+                                class="invalid-feedback">
+                        </div>
+                    </div>
                 </div>
-
                 <div class="form-group d-flex">
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>

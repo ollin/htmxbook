@@ -1,0 +1,29 @@
+<div
+        th:fragment="contact_email_form_group"
+        id="contact_email_form_group"
+        class="form-group">
+    <label
+            id="email_label"
+            for="email_input">Email</label>
+    <input
+            id="email_input"
+            type="email"
+            class="form-control"
+            th:classappend="${#fields.hasErrors('contact.email') ? 'is-invalid' : ''}"
+            placeholder="Email"
+            required
+            th:field="*{contact.email}"
+
+            hx-trigger="change, keyup delay:250ms changed"
+            hx-get="/contacts/email_unique_validation"
+            hx-target="#contact_email_form_group"
+            hx-swap="outerHTML"
+    >
+    <div
+            th:fragment="contact_email_error"
+            id="contact_email_error"
+            th:errors="*{contact.email}"
+            class="invalid-feedback"
+    >
+    </div>
+</div>
