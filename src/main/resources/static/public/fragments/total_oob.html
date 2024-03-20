@@ -1,7 +1,10 @@
 <div
+        hx-swap-oob="outerHTML; #contact_list_total"
+
         id="contact_list_total"
         class="fs-6 me-3 d-flex align-items-center"
         hx-get="/contacts/count"
         hx-trigger="load">
+    <span>hihi</span>
     <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
 </div>
