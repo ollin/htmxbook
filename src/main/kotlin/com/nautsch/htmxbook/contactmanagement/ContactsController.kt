@@ -90,6 +90,7 @@ class ContactsController(
         else
             contactRepository.fetch(pageable(sort, page, size), query)
 
+        model.addAttribute("archiver", archiver)
         model.addAttribute("contactsPage", contactsPage)
         return ModelAndView("index", model)
     }
