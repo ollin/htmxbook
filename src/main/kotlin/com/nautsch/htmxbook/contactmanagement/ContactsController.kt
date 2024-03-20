@@ -273,21 +273,19 @@ class ContactsController(
         model: ModelMap,
         redirectAttributes: RedirectAttributes,
         response: HttpServletResponse
-    ):String  {
+    )  {
         contactRepository.delete(UUID.fromString(id))
 
         if ("contact_delete_button" == hx_trigger) {
             redirectAttributes.addFlashAttribute("message", "Contact deleted")
             response.status = SC_SEE_OTHER
             response.setHeader("Location", "/contacts")
-            return "redirect:/contacts"
         }
         else {
+            response.setHeader("HX-Trigger", "contact_deleted")
             response.status = SC_OK
-            return "fragments/total_oob.html"
         }
     }
-
 }
 
 open class ContactForm {
