@@ -276,7 +276,7 @@ class ContactsController(
     ) {
         contactRepository.delete(UUID.fromString(id))
 
-        if ("contact-delete-button" == hx_trigger) {
+        if ("contact_delete_button" == hx_trigger) {
             redirectAttributes.addFlashAttribute("message", "Contact deleted")
             response.status = SC_SEE_OTHER
             response.setHeader("Location", "/contacts")
