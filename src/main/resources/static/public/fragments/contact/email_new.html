@@ -26,18 +26,14 @@
             hx-target="#contact_email_error"
             hx-swap="outerHTML"
     >
+    <!--/*@thymesVar id="contact" type="com.nautsch.htmxbook.contactmanagement.NewContactForm"*/-->
     <div
-            th:fragment="contact_email_error_failed"
+            th:fragment="contact_email_error"
             id="contact_email_error"
-            th:if="${#fields.hasErrors('contact.email')}"
-            th:errors="*{contact.email}"
-            class="invalid-feedback"
+            th:classappend="${contact.hasErrors} ? 'invalid-feedback' : ''"
     >
-    </div>
-    <div
-            th:fragment="contact_email_error_succeeded"
-            id="contact_email_error"
-            th:if="${! #fields.hasErrors('contact.email')}"
-    >
+        <ul th:if="${contact.hasErrors}">
+            <li th:each="error : ${contact.errors}" th:text="${error}"></li>
+        </ul>
     </div>
 </div>

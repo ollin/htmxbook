@@ -180,6 +180,7 @@ class ContactsController(
             this.email = email ?: ""
         }
         val bindingResult = BeanPropertyBindingResult(tmpForm, "contact")
+        tmpForm.bindingResult = bindingResult
         var viewName = "tmp"
 
         if (email != null) {
@@ -197,18 +198,18 @@ class ContactsController(
 
                 ))
                 response.setHeader("HX-Trigger", "contact_email_validation_failed")
-                viewName = "fragments/contact/email_new.html :: contact_email_error_failed"
-
             }
             else {
                 response.setHeader("HX-Trigger", "contact_email_validation_succeeded")
-                viewName = "fragments/contact/email_new.html :: contact_email_error_succeeded"
             }
         }
 
+        viewName = "fragments/contact/email_new.html :: contact_email_error"
         response.status = SC_OK
 
-        return ModelAndView(viewName, bindingResult.model)
+        val bindingResultModel = bindingResult.model
+
+        return ModelAndView(viewName, bindingResultModel)
     }
 
     @GetMapping("/new")
@@ -299,7 +300,18 @@ class ContactsController(
     }
 }
 
-open class ContactForm {
+abstract class Form {
+    var bindingResult: BindingResult? = null
+
+    val hasErrors: Boolean
+        get() = bindingResult?.hasErrors() ?: false
+
+    val errors: List<String?>
+        get() = bindingResult?.allErrors?.map { it.defaultMessage } ?: emptyList()
+
+}
+
+open class ContactForm: Form() {
 
     @NotEmpty(message = "Contact's name cannot be empty.")
     @Size(min = 3, max = 250, message = "Contact's name must be between 3 and 250 characters.")
