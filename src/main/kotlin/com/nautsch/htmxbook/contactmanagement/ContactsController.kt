@@ -174,11 +174,13 @@ class ContactsController(
     fun validateEmailUnique(
         @RequestParam(required = false) email: String?,
         model: ModelMap,
-    ): Any {
+        response: HttpServletResponse,
+    ): ModelAndView {
         val tmpForm = NewContactForm().apply {
             this.email = email ?: ""
         }
         val bindingResult = BeanPropertyBindingResult(tmpForm, "contact")
+        var viewName = "tmp"
 
         if (email != null) {
             val isExisting = contactRepository.isExisting(email)
@@ -194,10 +196,19 @@ class ContactsController(
                     "Email already exists.",
 
                 ))
+                response.setHeader("HX-Trigger", "contact_email_validation_failed")
+                viewName = "fragments/contact/email_new.html :: contact_email_error_failed"
+
+            }
+            else {
+                response.setHeader("HX-Trigger", "contact_email_validation_succeeded")
+                viewName = "fragments/contact/email_new.html :: contact_email_error_succeeded"
             }
         }
 
-        return ModelAndView("fragments/contact/email_new.html :: contact_email_form_group", bindingResult.model)
+        response.status = SC_OK
+
+        return ModelAndView(viewName, bindingResult.model)
     }
 
     @GetMapping("/new")

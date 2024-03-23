@@ -1,7 +1,12 @@
 <div
         th:fragment="contact_email_form_group"
         id="contact_email_form_group"
-        class="form-group">
+        class="form-group"
+
+        x-data="{ valid: true }"
+        x-on:contact_email_validation_failed="valid = false"
+        x-on:contact_email_validation_succeeded="valid = true"
+>
     <label
             id="email_label"
             for="email_input">Email</label>
@@ -9,21 +14,30 @@
             id="email_input"
             type="email"
             class="form-control"
-            th:classappend="${#fields.hasErrors('contact.email') ? 'is-invalid' : ''}"
+            th:errorclass="is-invalid"
+            x-bind:class="valid ? '' : 'is-invalid'"
+
             placeholder="Email"
             required
             th:field="*{contact.email}"
 
             hx-trigger="change, keyup delay:250ms changed"
             hx-get="/contacts/email_unique_validation"
-            hx-target="#contact_email_form_group"
+            hx-target="#contact_email_error"
             hx-swap="outerHTML"
     >
     <div
-            th:fragment="contact_email_error"
+            th:fragment="contact_email_error_failed"
             id="contact_email_error"
+            th:if="${#fields.hasErrors('contact.email')}"
             th:errors="*{contact.email}"
             class="invalid-feedback"
+    >
+    </div>
+    <div
+            th:fragment="contact_email_error_succeeded"
+            id="contact_email_error"
+            th:if="${! #fields.hasErrors('contact.email')}"
     >
     </div>
 </div>
