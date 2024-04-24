@@ -12,8 +12,8 @@ enum class ArchiverStatus {
 @Component
 class Archiver {
 
-    private val job = Job()
-    private val scope = CoroutineScope(Dispatchers.Default + job)
+    private val coroutineContext = Dispatchers.Default
+    private var scope = CoroutineScope(coroutineContext + Job())
 
     private var _status: ArchiverStatus = ArchiverStatus.WAITING
     val status: String
@@ -26,6 +26,7 @@ class Archiver {
 
     fun start() {
         _status = ArchiverStatus.RUNNING
+        scope = CoroutineScope(coroutineContext + Job())
 
         scope.launch {
             for (i in 1..10) {
@@ -38,6 +39,7 @@ class Archiver {
 
     fun stop() {
         _status = ArchiverStatus.WAITING
-        job.cancel() // stop the asynchronous task
+        _progress = 0
+        scope.cancel() // stop the asynchronous task
     }
 }
