@@ -21,10 +21,18 @@ class ContactRepository(
         val config = fakerConfig { locale = "de-CH" }
         val faker = Faker(config)
         for (i in 1..99) {
+            val actualName = faker.name.name()
+
+            val actualEmail = faker.internet
+                .safeEmail("${actualName.lowercase()}"
+                    .replace(" ", ".")
+                    .replace("-", ".")
+                )
+
             dsl.newRecord(CONTACT).apply {
                 id = UUID.randomUUID()
-                name = faker.name.name()
-                email = faker.internet.email()
+                name = actualName
+                email = actualEmail
                 phone = faker.phoneNumber.phoneNumber()
             }.store()
         }
