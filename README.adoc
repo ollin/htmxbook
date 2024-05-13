@@ -1,0 +1,14 @@
+= Workshop - HTMX - thymeleaf/spring boot/kotlin
+
+Contains the project with the following stack:
+
+* kotlin
+* thymeleaf
+* htmx
+* alpine js
+* bootstrap css
+* spring boot (web server)
+
+== References
+
+- based on the book https://hypermedia.systems/[Hypermedia Systems: Carson Gross, Adam Stepinski, Deniz Akşimşek, 2023]

@@ -1,42 +1,41 @@
-# gradle/libs.versions.toml
-
-# see https://docs.gradle.org/current/userguide/platforms.html#sec:sharing-catalogs
-
 [versions]
-arrow = "1.2.1"
-cucumber = "7.15.0"
-fastexcel = "0.17.0"
-googleLibphonenumber = "8.13.30"
-junit = "5.10.0"
-javaJwt = "4.4.0"
-jakarta_validation_api = "3.0.2"
-jakarta_xml_bind_api = "4.0.0"
-jooq = "3.18.9" # same as spring
-jooqStuderPlugin = "9.0"
-kotest = "5.8.0"
-kotlin = "1.9.22"
-kotlinFaker = "2.0.0-rc.1"
-kotlinxCoroutines = "1.7.3"
+cucumber = "7.17.0"
+
+jooq = "3.19.8" # same as spring
+
+kotlin = "1.9.23"
+
+kotlinxHtml = "0.11.0"
+kotlinCss = "1.0.0-pre.129-kotlin-1.4.20"
+
+kotest = "5.8.1"
+kotlinFaker = "2.0.0-rc.4"
+kotlinxCoroutines = "1.8.1"
+
+ktor = "2.3.10"
+
+logback = "1.5.6"
+
+nodePlugin = "7.0.2"
+
 springBoot = "3.2.2"
 springDependencyManagement = "1.1.4"
-springDoc = "2.3.0"
+springDoc = "2.5.0"
 springmockk = "4.0.2"
-testcontainers = "1.19.5"
+
 thymeleaf-layout-dialect = "3.3.0"
+
 valiktor = "0.12.0"
 
-webjarsLocator = "0.55"
-webjarsBootstrap = "5.3.2"
+webjarsAlpinejs = "3.13.10"
+webjarsBootstrap = "5.3.3"
 webjarsBootstrapIcons = "1.11.3"
-webjarsHtmx = "1.9.10"
+webjarsHtmx = "1.9.12"
 webjarsHyperscript = "0.9.12"
+webjarsLocator = "0.58"
+webjarsTailwindcss = "3.4.1"
 
 [libraries]
-arrow = { group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow" }
-arrowFxCoroutines = { group = "io.arrow-kt", name = "arrow-fx-coroutines", version.ref = "arrow" }
-
-caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine"}
-
 cucumberBom = { group = "io.cucumber", name = "cucumber-bom", version.ref = "cucumber" }
 cucumber-java = { group = "io.cucumber", name = "cucumber-java", version.ref = "cucumber" }
 cucumber-junit-platform-engine = { group = "io.cucumber", name = "cucumber-junit-platform-engine", version.ref = "cucumber" }
@@ -45,39 +44,37 @@ cucumber-spring = { group = "io.cucumber", name = "cucumber-spring", version.ref
 fasterxml-jackson-databind = { group = "com.fasterxml.jackson.core", name = "jackson-databind" }
 fasterxml-jackson-module-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin" }
 
-fastexcelWriter = { group = "org.dhatim", name = "fastexcel", version.ref = "fastexcel" }
-fastexcelReader = { group = "org.dhatim", name = "fastexcel-reader", version.ref = "fastexcel" }
-
 flyway-core = { group = "org.flywaydb", name = "flyway-core"}
-
-googleLibphonenumber = { group = "com.googlecode.libphonenumber", name = "libphonenumber", version.ref = "googleLibphonenumber" }
 
 h2 = { group = "com.h2database", name = "h2" }
 
-javaJwt = { group = "com.auth0", name = "java-jwt", version.ref = "javaJwt" }
-jakarta-validation-api = { group = "jakarta.validation", name = "jakarta.validation-api", version.ref = "jakarta_validation_api" }
-jakarta-xml-bind-api = { group = "jakarta.xml.bind", name = "jakarta.xml.bind-api", version.ref = "jakarta_xml_bind_api" }
-
 jooq-core = { group = "org.jooq", name = "jooq", version.ref = "jooq"}
 jooq-codegen = { group = "org.jooq", name = "jooq-codegen", version.ref = "jooq"}
-jooq-meta-extensions = { group = "org.jooq", name = "jooq-meta-extensions", version.ref = "jooq"}
+jooq-meta = { group = "org.jooq", name = "jooq-meta", version.ref = "jooq"}
+jooq-metaExtensions = { group = "org.jooq", name = "jooq-meta-extensions", version.ref = "jooq"}
 
-junitBom = { group = "org.junit", name = "junit-bom", version.ref = "junit" }
-junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api"}
-junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine"}
-junit-platform-suite = { group = "org.junit.platform", name = "junit-platform-suite"}
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
+
 kotestAssertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 kotestCommon = { group = "io.kotest", name = "kotest-common", version.ref = "kotest" }
 kotestFrameworkDatatest = { group = "io.kotest", name = "kotest-framework-datatest", version.ref = "kotest" }
 kotestRunner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
-kotlinFaker = { group = "io.github.serpro69", name = "kotlin-faker", version.ref = "kotlinFaker"}
+
+kotlinFaker = { group = "io.github.serpro69", name = "kotlin-faker", version.ref = "kotlinFaker" }
+
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+
 kotlinxCoroutinesReactor = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-reactor", version.ref = "kotlinxCoroutines" }
 kotlinxCoroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
-mockk = { group = "io.mockk", name = "mockk", version = "1.13.9" }
+kotlinx-html-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx-html-jvm", version.ref = "kotlinxHtml" }
+kotlin-css-jvm = { group = "org.jetbrains", name = "kotlin-css-jvm", version.ref = "kotlinCss" }
 
-
-slf4j-api = { group = "org.slf4j", name = "slf4j-api"}
+ktor-server-core-jvm = { group = "io.ktor", name = "ktor-server-core-jvm", version.ref = "ktor" }
+ktor-server-htmlbuilder = { group = "io.ktor", name = "ktor-server-html-builder-jvm", version.ref = "ktor" }
+ktor-server-netty-jvm = { group = "io.ktor", name = "ktor-server-netty-jvm", version.ref = "ktor" }
+ktor-server-resources = { group = "io.ktor", name = "ktor-server-resources", version.ref = "ktor" }
+ktor-server-tests-jvm = { group = "io.ktor", name = "ktor-server-tests-jvm", version.ref = "ktor" }
+ktor-server-webjars-jvm = { group = "io.ktor", name = "ktor-server-webjars-jvm", version.ref = "ktor" }
 
 spring-boot-autoconfigure = { group = "org.springframework.boot", name = "spring-boot-autoconfigure" }
 spring-boot-devtools = { group = "org.springframework.boot", name = "spring-boot-devtools" }
@@ -108,11 +105,13 @@ thymeleaf-layout-dialect = { group = "nz.net.ultraq.thymeleaf", name = "thymelea
 urlbuilder = { group = "io.mikael", name = "urlbuilder", version = "2.0.9" }
 valiktor = { group = "org.valiktor", name = "valiktor-core", version.ref = "valiktor" }
 
-webjars-locator-core = { group = "org.webjars", name = "webjars-locator-core", version.ref = "webjarsLocator" }
+webjars-alpinejs = { group = "org.webjars.npm", name = "alpinejs", version.ref = "webjarsAlpinejs" }
 webjars-bootstrap-core = { group = "org.webjars", name = "bootstrap", version.ref = "webjarsBootstrap" }
 webjars-bootstrap-icons = { group = "org.webjars.npm", name = "bootstrap-icons", version.ref = "webjarsBootstrapIcons" }
 webjars-htmx = { group = "org.webjars.npm", name = "htmx.org", version.ref = "webjarsHtmx" }
+webjars-locator-core = { group = "org.webjars", name = "webjars-locator-core", version.ref = "webjarsLocator" }
 webjars-hyperscript = { group = "org.webjars.npm", name = "hyperscript.org", version.ref = "webjarsHyperscript" }
+webjars-tailwindcss = { group = "org.webjars.npm", name = "tailwindcss", version.ref = "webjarsTailwindcss" }
 
 [bundles]
 kotest = ["kotestAssertions", "kotestCommon", "kotestFrameworkDatatest", "kotestRunner"]
@@ -120,4 +119,5 @@ kotlinxCoroutinesAll = ["kotlinxCoroutines", "kotlinxCoroutinesReactor"]
 cucumberWithSpring = ["cucumber-java", "cucumber-junit-platform-engine", "cucumber-spring"]
 
 [plugins]
-jooqStuderPlugin = { id = "nu.studer.jooq", version.ref = "jooqStuderPlugin" }
+nodePlugin = { id = "com.github.node-gradle.node", version.ref = "nodePlugin"}
+jooqCodegen = { id = "org.jooq.jooq-codegen-gradle", version.ref = "jooq" }

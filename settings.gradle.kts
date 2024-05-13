@@ -1,1 +1,1 @@
-rootProject.name = "htmxbook"
+rootProject.name = "workshop-htmx-thymeleaf"
