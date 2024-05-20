@@ -1,5 +1,5 @@
 [versions]
-cucumber = "7.17.0"
+cucumber = "7.18.0"
 
 jooq = "3.19.8" # same as spring
 
