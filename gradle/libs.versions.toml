@@ -1,7 +1,7 @@
 [versions]
 cucumber = "7.17.0"
 
-jooq = "3.19.8" # same as spring
+jooq = "3.19.9" # same as spring
 
 kotlin = "1.9.23"
 
