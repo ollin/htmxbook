@@ -27,7 +27,7 @@ thymeleaf-layout-dialect = "3.3.0"
 
 valiktor = "0.12.0"
 
-webjarsAlpinejs = "3.13.10"
+webjarsAlpinejs = "3.14.0"
 webjarsBootstrap = "5.3.3"
 webjarsBootstrapIcons = "1.11.3"
 webjarsHtmx = "1.9.12"
