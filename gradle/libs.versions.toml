@@ -32,7 +32,7 @@ webjarsBootstrap = "5.3.3"
 webjarsBootstrapIcons = "1.11.3"
 webjarsHtmx = "1.9.12"
 webjarsHyperscript = "0.9.12"
-webjarsLocator = "0.58"
+webjarsLocator = "0.59"
 webjarsTailwindcss = "3.4.1"
 
 [libraries]
