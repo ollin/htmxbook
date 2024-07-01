@@ -20,7 +20,7 @@ nodePlugin = "7.0.2"
 
 springBoot = "3.2.2"
 springDependencyManagement = "1.1.4"
-springDoc = "2.5.0"
+springDoc = "2.6.0"
 springmockk = "4.0.2"
 
 thymeleaf-layout-dialect = "3.3.0"
